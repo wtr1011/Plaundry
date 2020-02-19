@@ -18,7 +18,7 @@ index = []
 #月と日から日にちを抽出
 for data in lines: 
 	if(('月' in data) & ('日' in data)):
-		index.append(i)
+		index.append(i)#
 	i += 1	#カウントしてインデックスを求める
 
 for n in range(len(index) -1):
