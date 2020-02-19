@@ -1,7 +1,0 @@
-{
-  "name": "washedule",
-  "integrations": {
-    "cordova": {}
-  },
-  "type": "ionic-angular"
-}
