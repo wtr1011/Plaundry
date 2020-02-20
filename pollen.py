@@ -8,24 +8,39 @@ from bs4 import BeautifulSoup
 import datetime
 import pandas as pd
 
-def page_detector(area):
-
+def page_detector(area, id):
     if area == "北海道地域":
         next_page = 'OpenSaisinHyou(01)'
+        add_url = "1/"
     elif area == "東北地域":
         next_page = 'OpenSaisinHyou(02)'
+        add_url = "2/"
     elif area == "関東地域":
         next_page = 'OpenSaisinHyou(03)'
-    elif area == "中部地域":
+        add_url = "3/"
+    elif area == "北陸地域":
         next_page = 'OpenSaisinHyou(05)'
+        add_url = "4/"
+    elif area == "東海地域":
+        next_page = 'OpenSaisinHyou(05)'
+        add_url = "5/"
     elif area == "関西地域":
         next_page = 'OpenSaisinHyou(06)'
-    elif area == "中国・四国地域":
+        add_url = "6/"
+    elif area == "中国地域":
         next_page = 'OpenSaisinHyou(07)'
+        add_url = "7/"
+    elif area == "四国地域":
+        next_page = 'OpenSaisinHyou(07)'
+        add_url = "8/"
     elif area == "九州地域":
         next_page = 'OpenSaisinHyou(08)'
+        add_url = "9/"
 
-    return next_page
+    if id == 1:
+        return next_page
+    elif id == 2:
+        return add_url
 
 def time2name():
     # 現在時刻の取得
@@ -47,15 +62,41 @@ def time2name():
 
     return file_name
 
-def pollen():
-    area = "中国・四国地域" # inputデータのarea情報
+def split_list(list, num):
+    for index in range(0, len(list), num):
+        yield list[index:index+num]
 
+def pollen_forcast(area):
+    target_url = 'https://tenki.jp/pollen/week/'
+    #data = pd.read_html(target_url, header=0, encoding="shift-jis")
+    request_page = requests.get(target_url)
+    soup = BeautifulSoup(request_page.content, "html.parser")
+
+    #print(rows)
+
+    add_url = page_detector(area, 2)
+    next_link = target_url + add_url
+
+    request_page = requests.get(next_link)
+    soup = BeautifulSoup(request_page.content, "html.parser")
+    table = soup.findAll('table', {'class':'week-index-table'})[0]
+    rows = table.findAll('td')
+
+    data = []
+    for row in rows:
+        data.append(row.get_text())
+
+    data = list(split_list(data, 8))
+    print(data)
+    return data
+
+def pollen_now(area):
     target_url = 'http://kafun.taiki.go.jp/#' # 環境省花粉観測システム（愛称：はなこさん）
     request_page = requests.get(target_url)
 
     soup = BeautifulSoup(request_page.text, "html.parser")
 
-    next_page = page_detector(area)
+    next_page = page_detector(area,1)
     links = soup.findAll('a')
     for link in links:
         if link.get('onclick') == next_page:
@@ -78,6 +119,12 @@ def pollen():
     data = pd.read_html(next_link, header=0)
     data = data[1]
     print(data)
+
+def pollen():
+    area = "関東地域" # inputデータのarea情報
+
+    now_data      = pollen_now(area)
+    forcast_data = pollen_forcast(area)
 
 if __name__ == '__main__':
     pollen()
