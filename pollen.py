@@ -104,7 +104,7 @@ def pollen_now(area):
             area_code = area_code[15:17]
             next_link = "http://kafun.taiki.go.jp/HyouSaisin0.aspx?Area=" + area_code
            
-           request_page = requests.get(next_link)
+            request_page = requests.get(next_link)
 
     soup  = BeautifulSoup(request_page.content, "html.parser")
     links = soup.findAll('frame')
