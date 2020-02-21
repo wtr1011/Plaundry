@@ -25,7 +25,9 @@ SECRET_KEY = '(#q_3r#%udqh_^cdi0+zw%#vpc#g!#$_3wptvv*x6lxe$(709-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+#aonuma
+#home server address
+ALLOWED_HOSTS = ['192.168.2.101']
 
 
 # Application definition
