@@ -69,6 +69,7 @@ def usual_page(request):
     ax.set_title('Plot of sine and cosine')
 
 
+#スクレイピングのデータとdatabaseのデータより提案の処理、グラフをpng変換
 # save as png
     plt.savefig('./static/figure.png')
 
@@ -79,6 +80,9 @@ def usual_page(request):
 
 #plan today page
 def today_plan(request):
+    #スクレイピングのデータとdatabaseのデータより提案の処理、グラフをpng変換
+
+
     d = {
         'time':"8:00 ~ 10:00"
     }
@@ -86,6 +90,9 @@ def today_plan(request):
 
 #plan week page
 def weekly_plan(request):
+    #スクレイピングのデータとdatabaseのデータより提案の処理、グラフをpng変換
+
+
     d = {
         'mon_plan':["8:00 ~ 9:00", "9:00 ~ 10:00"],
         'tue_plan':["11:00 ~ 14:00"],
