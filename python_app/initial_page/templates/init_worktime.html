@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head lang="ja">
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+        <form action="" method="get">
+        <p class="label_postnumber"><label>仕事時間</label></p>
+        <p class="label_worktime">開始：<input id="input_worktime" type="time" name="example6" step="3600"></p>
+        <p class="label_worktime">終了：<input id="input_worktime" type="time" name="example6" step="3600"></p>
+        <p class="send_postposi"><input id="send_postnumber" type="submit" value=""></p>
+    </form>
+
+    <p class="label_next3">
+        <a href="{% url 'initial_page:get_laundryscale' %}">次へ</a>
+    </p>
+</body>
+</html>
