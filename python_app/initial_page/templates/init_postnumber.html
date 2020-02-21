@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head lang="ja">
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+        <form action="" method="get">
+        <p class="label_postnumber"><label>郵便番号<br><input id="input_postnumber" type="text" size="20" name="your_postnumber"></label></p>
+        <p class="send_postposi"><input id="send_postnumber" type="submit" value=""></p>
+    </form>
+    <p class="label_yourpostnumber">
+    {% if your_postnumber %}
+        {{ your_postnumber }}
+    {% endif %}
+    </p>
+
+    <p class="label_next2">
+        <a href="{% url 'initial_page:get_worktime' %}">次へ</a>
+    </p>
+</body>
+</html>

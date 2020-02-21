@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head lang="ja">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="title">初期設定を行います</div>
+    <p class="label_next">
+        <a href="{% url 'initial_page:get_post_query' %}">次へ</a>
+    </p>
+</body>
+</html>

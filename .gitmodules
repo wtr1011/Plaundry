@@ -1,0 +1,6 @@
+[submodule "washedule_app"]
+	path = washedule_app
+	url = https://github.com/yunTum/washdule.git
+[submodule "app"]
+	path = app
+	url = https://github.com/yunTum/washdule.git

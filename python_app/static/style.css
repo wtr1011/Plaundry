@@ -1,0 +1,76 @@
+.title{
+    padding-top: 300px;
+    font-size: 550%;
+    text-align: center;
+}
+p.label_next{
+    padding-top: 550px;
+    font-size: 500%;
+    text-align: center;
+}
+
+
+p.label_next2{
+    padding-top: 300px;
+    font-size: 500%;
+    text-align: center;
+}
+p.label_postnumber{
+    padding-top: 150px;
+    font-size: 650%;
+    text-align: center;
+}
+p.label_yourpostnumber{
+    font-size: 300%;
+    text-align: center;
+}
+#input_postnumber{
+    font-size: 50px;
+    width: 40%;
+    text-align: center;
+    border: 2px solid #ddd; 
+}
+p.send_postposi{
+    text-align: end;
+}
+#send_postnumber{
+    font-size: 50px;
+    width: 40%;
+}
+
+
+p.label_next3{
+    padding-top: 10px;
+    font-size: 500%;
+    text-align: center;
+}
+p.label_worktime{
+    padding-top: 50px;
+    font-size: 450%;
+    text-align: center;
+}
+#input_worktime{
+    font-size: 50px;
+    width: 30%;
+    text-align: center;
+}
+
+
+p.label_next4{
+    padding-top: 250px;
+    font-size: 500%;
+    text-align: center;
+}
+.radio_laundry{
+    width: 60px;
+    height: 60px;
+    vertical-align: middle;
+}
+.label_laundry{
+    font-size: 40px;
+    vertical-align: middle;
+}
+.laundry_wrap{
+    padding-top: 120px;
+    text-align: center;
+}
