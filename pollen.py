@@ -95,11 +95,7 @@ def pollen_forcast(area):
 
 
 def pollen_now(area):
-<<<<<<< HEAD
-    target_url = 'http://kafun.taiki.go.jp/#' # 環境省花粉観測システム（愛称：はなこさん）
-=======
     target_url = 'http://kafun.taiki.go.jp/#'  # 環境省花粉観測システム（愛称：はなこさん）
->>>>>>> master
 
     request_page = requests.get(target_url)
     soup = BeautifulSoup(request_page.text, "html.parser")
@@ -107,12 +103,6 @@ def pollen_now(area):
     next_page = page_detector(area, 1)
     links = soup.findAll('a')
 
-<<<<<<< HEAD
-    next_page = page_detector(area,1)
-    links     = soup.findAll('a')
-
-=======
->>>>>>> master
     for link in links:
         if link.get('onclick') == next_page:
             area_code = link.get('onclick')
