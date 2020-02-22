@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head lang="ja">
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+
+<script>
+$(function(){
+  //トグルボタン定義
+  $("#chk1").button();
+  //トグルボタンの状態を取得する
+  $("#chk1").click(function(){
+    var a = $("#chk1").prop("checked");
+    if(a){
+    　$('#graph').html('<img id="graph" src="{% static "figure1.png" %}" alt="graph" border="0">');
+    }else{
+      $('#graph').html('<img id="graph" src="{% static "figure.png" %}" alt="graph" border="0">');
+    }
+  });
+});
+$(function(){
+  $('#btn1').on('click', function() {
+        $('#graph').html('<img id="graph" src="{% static "figure.png" %}" alt="graph" border="0">');
+    });
+});
+$(function(){
+  $('#btn2').on('click', function() {
+        location.reload();
+    });
+});
+
+</script>
+</head>
+<body>
+    <p class="figure"><p id="graph"></p></p>
+
+    <p class="toggle_posi"><input type="button" id="btn1" value="グラフ表示"/>　　　　　<input type="checkbox" id="chk1" /><label for="chk1">花粉量表示</label></p>
+    
+    <p class="button_posi"><input type="button" id="btn2" value="更新"/>　　<a href="{% url 'initial_page:today_plan' %}"><button type="button" id="btn3">今日の推奨時間</button></a>　<a href="{% url 'initial_page:weekly_plan' %}"><button type="button" id="btn4">週間の提案</button></a><p>
+</body>
+</html>

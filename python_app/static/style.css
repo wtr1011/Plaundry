@@ -25,17 +25,21 @@ p.label_yourpostnumber{
     text-align: center;
 }
 #input_postnumber{
-    font-size: 50px;
-    width: 40%;
+    font-size: 40px;
+    width: 20%;
     text-align: center;
     border: 2px solid #ddd; 
 }
 p.send_postposi{
-    text-align: end;
+    text-align: center;
 }
 #send_postnumber{
-    font-size: 50px;
+    font-size: 30px;
+    width: 20%;
+}
+.output_post{
     width: 40%;
+    height: 30px;
 }
 
 
@@ -73,4 +77,85 @@ p.label_next4{
 .laundry_wrap{
     padding-top: 120px;
     text-align: center;
+}
+.title2{
+    padding-top: 300px;
+    font-size: 500%;
+    text-align: center;
+}
+.label_next5{
+    padding-top: 400px;
+    font-size: 500%;
+    text-align: center;
+}
+
+
+.figure{
+    width: 10%;
+    height: 10%;
+    padding-left: 60px;
+}
+#graph{
+    padding-top: 10px;
+    width: 100%;
+    height: 100%;
+}
+.toggle_posi{
+    text-align: center;
+    font-size: 200%;
+}
+.button_posi{
+    padding-top: 50px;
+    text-align: center;
+    font-size: 200%;
+}
+#btn1{
+    width: 200px;
+    height: 60px;
+    font-size: 80%;
+}
+#btn2{
+    width: 140px;
+    height: 100px;
+    font-size: 100%;
+}
+#btn3{
+    width: 250px;
+    height: 150px;
+    font-size: 80%;
+}
+#btn4{
+    width: 250px;
+    height: 150px;
+    font-size: 100%;
+}
+
+.label_next6{
+    padding-top: 10px;
+    font-size: 500%;
+    text-align: center;
+}
+
+
+.figure_today{
+    width: 100%;
+    height: 100%;
+}
+#btn5{
+    width: 150px;
+    height: 80px;
+    font-size: 150%;
+}
+.btn5_pos{
+    text-align: center;
+}
+.label_today_plan{
+    text-align: center;
+    font-size: 200%;
+}
+
+
+.label_weekly_plan{
+    text-align: center;
+    font-size: 120%;
 }
