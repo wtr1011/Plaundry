@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 import datetime
 import pandas as pd
 
+
 def page_detector(area, id):
     if area == "北海道地域":
         next_page = 'OpenSaisinHyou(01)'
@@ -42,13 +43,14 @@ def page_detector(area, id):
     elif id == 2:
         return add_url
 
+
 def time2name():
     # 現在時刻の取得
-    now    = datetime.datetime.now()
-    year   = now.strftime("%Y")
-    month  = now.strftime("%m")
-    day    =  now.strftime("%d")
-    hour   = now.hour
+    now = datetime.datetime.now()
+    year = now.strftime("%Y")
+    month = now.strftime("%m")
+    day = now.strftime("%d")
+    hour = now.hour
     minute = now.minute
 
     # 毎時35分データ更新対策
@@ -62,23 +64,25 @@ def time2name():
 
     return file_name
 
+
 def split_list(list, num):
     for index in range(0, len(list), num):
         yield list[index:index+num]
+
 
 def pollen_forcast(area):
     target_url = 'https://tenki.jp/pollen/week/'
 
     request_page = requests.get(target_url)
-    soup         = BeautifulSoup(request_page.content, "html.parser")
+    soup = BeautifulSoup(request_page.content, "html.parser")
 
-    add_url   = page_detector(area, 2)
+    add_url = page_detector(area, 2)
     next_link = target_url + add_url
 
     request_page = requests.get(next_link)
-    soup         = BeautifulSoup(request_page.content, "html.parser")
-    table        = soup.findAll('table', {'class':'week-index-table'})[0]
-    rows         = table.findAll('td')
+    soup = BeautifulSoup(request_page.content, "html.parser")
+    table = soup.findAll('table', {'class': 'week-index-table'})[0]
+    rows = table.findAll('td')
 
     data = []
     for row in rows:
@@ -89,15 +93,26 @@ def pollen_forcast(area):
 
     return data
 
+
 def pollen_now(area):
+<<<<<<< HEAD
     target_url = 'http://kafun.taiki.go.jp/#' # 環境省花粉観測システム（愛称：はなこさん）
+=======
+    target_url = 'http://kafun.taiki.go.jp/#'  # 環境省花粉観測システム（愛称：はなこさん）
+>>>>>>> master
 
     request_page = requests.get(target_url)
-    soup         = BeautifulSoup(request_page.text, "html.parser")
+    soup = BeautifulSoup(request_page.text, "html.parser")
 
+    next_page = page_detector(area, 1)
+    links = soup.findAll('a')
+
+<<<<<<< HEAD
     next_page = page_detector(area,1)
     links     = soup.findAll('a')
 
+=======
+>>>>>>> master
     for link in links:
         if link.get('onclick') == next_page:
             area_code = link.get('onclick')
@@ -106,7 +121,7 @@ def pollen_now(area):
 
             request_page = requests.get(next_link)
 
-    soup  = BeautifulSoup(request_page.content, "html.parser")
+    soup = BeautifulSoup(request_page.content, "html.parser")
     links = soup.findAll('frame')
 
     file_name = time2name()
@@ -121,11 +136,13 @@ def pollen_now(area):
     data = data[1]
     print(data)
 
-def pollen():
-    area = "関東地域" # inputデータのarea情報
 
-    now_data     = pollen_now(area)
+def pollen():
+    area = "関東地域"  # inputデータのarea情報
+
+    now_data = pollen_now(area)
     forcast_data = pollen_forcast(area)
+
 
 if __name__ == '__main__':
     pollen()
