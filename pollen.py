@@ -68,7 +68,7 @@ def split_list(list, num):
 
 def pollen_forcast(area):
     target_url = 'https://tenki.jp/pollen/week/'
-    
+
     request_page = requests.get(target_url)
     soup         = BeautifulSoup(request_page.content, "html.parser")
 
@@ -91,19 +91,19 @@ def pollen_forcast(area):
 
 def pollen_now(area):
     target_url = 'http://kafun.taiki.go.jp/#' # 環境省花粉観測システム（愛称：はなこさん）
-    
+
     request_page = requests.get(target_url)
     soup         = BeautifulSoup(request_page.text, "html.parser")
 
     next_page = page_detector(area,1)
     links     = soup.findAll('a')
-    
+
     for link in links:
         if link.get('onclick') == next_page:
             area_code = link.get('onclick')
             area_code = area_code[15:17]
             next_link = "http://kafun.taiki.go.jp/HyouSaisin0.aspx?Area=" + area_code
-           
+
             request_page = requests.get(next_link)
 
     soup  = BeautifulSoup(request_page.content, "html.parser")
