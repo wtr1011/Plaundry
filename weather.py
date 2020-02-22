@@ -1,3 +1,7 @@
+#Weather Scraping from 'tenki.jp'
+#Yusuke Aonuma
+#
+
 import requests, bs4
 import re
 import time
@@ -8,7 +12,7 @@ def tenki_jp(arg):
 #	True |	0:日付 1:天気 2:最高気温 3:最低気温 4:降水確率 5:紫外線量(5段階) 6:花粉量(5段階)
 #	False|	0:6時間毎 1:天気 2:気温 3:降水確率 4:湿度 5:風速
 #
-	res = requests.get('https://tenki.jp/forecast/3/17/4610/14203/10days.html')
+	res = requests.get('https://tenki.jp/forecast/3/17/4610/14203/10days.html')#平塚市
 	res.raise_for_status()
 	soup = bs4.BeautifulSoup(res.text, "html.parser")
 	print(soup.title)
