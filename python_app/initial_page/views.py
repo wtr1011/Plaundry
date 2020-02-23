@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http.response import HttpResponse
+from . import forms, models
 
 # Create your views here.
 #start page
@@ -7,17 +8,43 @@ def hello_template(request):
     return render(request, 'init_start.html')
 
 #get post number
+"""
 def get_post_query(request):
     d = {
         'your_postnumber': request.GET.get('your_postnumber')
     }
     return render(request, 'init_postnumber.html', d)
+"""
+
+def get_post_query(request):
+    form = forms.PostnumberForm(request.POST or None)
+    if form.is_valid():
+        models.Customer.objects.create(**form.cleaned_data)
+        return redirect('initial:get_post_query')
+
+    d = {
+        'form': form,
+        'post_number_qs': models.Customer.objects.all().order_by('-id')
+    }
+    return render(request, 'init_postnumber.html', d)
+
 
 #get work time
+"""
 def get_worktime(request):
     d = {
         'worktime_start': request.GET.get('worktime_start'),
         'worktime_end': request.GET.get('worktime_end')
+    }
+    return render(request, 'init_worktime.html', d)
+"""
+def get_worktime(request):
+    form = forms.WorktimeForm(request.POST or None)
+    if form.is_valid():
+        models.Customer.objects.create(**form.cleaned_data)
+        return redirect('initial:get_post_query')
+    d = {
+        'form': form,
     }
     return render(request, 'init_worktime.html', d)
 

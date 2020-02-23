@@ -8,13 +8,12 @@
 <body>
         <form action="" method="get">
         <p class="label_postnumber"><label>仕事時間</label></p>
-        <p class="label_worktime">開始：<input id="input_worktime" type="time" name="starttime" required></p>
-        <p class="label_worktime">終了：<input id="input_worktime" type="time" name="endtime" required></p>
-        <p class="send_postposi"><input id="send_postnumber" type="submit" value="OK"></p>
+        <p class="label_worktime">{{form.time_start.label}}　{{form.time_start}}</p>
+        <p class="label_worktime">{{form.time_end.label}}　{{form.time_end}}</p>
+
+        <p class="label_next3"><button style="font-size: 60%;" type="submit" formaction="{% url 'initial_page:get_laundryscale' %}">次へ</button></p>
+        {% csrf_token %}
     </form>
 
-    <p class="label_next3">
-        <a href="{% url 'initial_page:get_laundryscale' %}">次へ</a>
-    </p>
 </body>
 </html>

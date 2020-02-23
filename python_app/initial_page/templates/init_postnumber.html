@@ -5,22 +5,22 @@
   <meta charset="UTF-8">
   <link rel="stylesheet" href="{% static 'style.css' %}">
   <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
+
+
 </head>
 <body>
+    <form method="post" action="">
         <p class="label_postnumber"><label>郵便番号</label></p>
         <p class="send_postposi">
-            <input id="input_postnumber" type="text" name="zip01" size="4" maxlength="3"> － <input id="input_postnumber" type="text" name="zip02" size="5" maxlength="4" onKeyUp="AjaxZip3.zip2addr('zip01','zip02','pref01','addr01');"><br><br><br><br>
-            <input class="output_post" type="text" name="pref01" size="20" readonly><br><br>
-            <input class="output_post" type="text" name="addr01" size="20" readonly><br><br><br>
+            <input id="input_postnumber" type="text" name="zip01" size="4" maxlength="3"> － <input id="input_postnumber" type="text" name="zip02" size="5" maxlength="4" onKeyUp="AjaxZip3.zip2addr('zip01','zip02','your_pref','addr01');"><br><br><br><br>
+            {{ form.your_pref }}
+            <br><br>
+            <input style="width: 30%;height: 60%;font-size: 40px;" type="text" name="addr01" size="20" readonly>
         </p>
-    <p class="label_yourpostnumber">
-    {% if your_postnumber %}
-        {{ your_postnumber }}
-    {% endif %}
-    </p>
+        <input type="submit" value="送信">
+            <p class="label_next2"><button style="font-size: 350%;" type="submit" formaction="{% url 'initial_page:get_worktime' %}">次へ</button></p>
 
-    <p class="label_next2">
-        <a href="{% url 'initial_page:get_worktime' %}">次へ</a>
-    </p>
+        {% csrf_token %}
+    </form>
 </body>
 </html>
