@@ -7,7 +7,11 @@ import Penman
 import numpy as np
 import matplotlib.pyplot as plt
 
-
+#戻り値：乾やすさが一番高い時間帯　幅：1時間
+#＋グラフの生成
+#
+#引数：郵便番号
+#
 def output_time(postnumber):
     drytime = []
     time = []
@@ -31,4 +35,6 @@ def output_time(postnumber):
     return time_result
 
 if __name__ == "__main__":
-    print(output_time("2591206"))
+    pass
+    #example
+    #print(output_time("2591206"))
