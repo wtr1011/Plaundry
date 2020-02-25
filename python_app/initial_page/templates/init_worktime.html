@@ -4,16 +4,23 @@
 <head lang="ja">
   <meta charset="UTF-8">
   <link rel="stylesheet" href="{% static 'style.css' %}">
+  <script src="{% static '/script/Datastore.js' %}"></script>
+
 </head>
 <body>
-        <form action="" method="get">
-        <p class="label_postnumber"><label>仕事時間</label></p>
-        <p class="label_worktime">{{form.time_start.label}}　{{form.time_start}}</p>
-        <p class="label_worktime">{{form.time_end.label}}　{{form.time_end}}</p>
+      <p style="padding-top: 200px;text-align: center;"><label style="font-size: 650%;">仕事時間</label></p>
+      <p class="inputTime_pos" style="text-align: center;padding-top: 100px">
+        <label style="font-size: 400%;">開始：</label><input style="padding-top: 10px;font-size: 500%; width: 40%;" id="starttime" type="time" step="3600" min="00:00" max="23:59" >
+      </p>
+      <br><br><br><br>
+      <p class="inputTime_pos" style="text-align: center;padding-top: 50px">
+        <label style="font-size: 400%;">終了：</label><input style="padding-top: 10px;font-size: 500%; width: 40%;" id="endtime" type="time" step="3600" min="00:00" max="23:59" >
+      </p>
+        <p style="text-align: center;padding-top: 200px;">
+        <label style="font-size: 500%;" onclick="requiredInput_work()">次へ</label>
+      </p>
+      <button onclick="setWorkTime()">set</button><br>
+      <button onclick="getWorkTime()">get</button><br>
 
-        <p class="label_next3"><button style="font-size: 60%;" type="submit" formaction="{% url 'initial_page:get_laundryscale' %}">次へ</button></p>
-        {% csrf_token %}
-    </form>
-
-</body>
+    </body>
 </html>

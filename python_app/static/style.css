@@ -10,17 +10,20 @@ p.label_next{
 }
 
 
-p.label_next2{
-    padding-top: 250px;
-    text-align: center;
-}
 p.label_postnumber{
-    padding-top: 150px;
+    padding-top: 100px;
     font-size: 650%;
     text-align: center;
 }
-#input_postnumber{
-    font-size: 40px;
+
+#zip01{
+    font-size: 60px;
+    width: 20%;
+    text-align: center;
+    border: 2px solid #ddd; 
+}
+#zip02{
+    font-size: 60px;
     width: 20%;
     text-align: center;
     border: 2px solid #ddd; 
@@ -28,19 +31,10 @@ p.label_postnumber{
 p.send_postposi{
     text-align: center;
 }
-#send_postnumber{
-    font-size: 30px;
-    width: 20%;
-}
 
 
 p.label_next3{
     padding-top: 200px;
-    text-align: center;
-}
-p.label_worktime{
-    padding-top: 10px;
-    font-size: 450%;
     text-align: center;
 }
 #input_worktime{
@@ -49,8 +43,9 @@ p.label_worktime{
     text-align: center;
 }
 
+
 p.label_laundry_title{
-    padding-top: 40px;
+    padding-top: 100px;
     font-size: 550%;
     text-align: center;
 }
@@ -64,6 +59,21 @@ p.label_next4{
     height: 60px;
     vertical-align: middle;
 }
+#radio_laundry1{
+    width: 60px;
+    height: 60px;
+    vertical-align: middle;
+}
+#radio_laundry2{
+    width: 60px;
+    height: 60px;
+    vertical-align: middle;
+}
+#radio_laundry3{
+    width: 60px;
+    height: 60px;
+    vertical-align: middle;
+}
 .label_laundry{
     font-size: 40px;
     vertical-align: middle;
@@ -72,6 +82,8 @@ p.label_next4{
     padding-top: 120px;
     text-align: center;
 }
+
+
 .title2{
     padding-top: 300px;
     font-size: 500%;
@@ -79,7 +91,7 @@ p.label_next4{
 }
 .label_next5{
     padding-top: 400px;
-    font-size: 500%;
+    font-size: 400%;
     text-align: center;
 }
 p.send_laundryposi{
@@ -88,13 +100,43 @@ p.send_laundryposi{
 }
 
 
+#label_touch{
+    font-size: 400%;
+}
+#label_touch_pos{
+    padding-top: 100px;
+    padding-bottom: 100px;
+    text-align: center;
+}
+#radio_morning{
+    width: 50px;
+    height: 50px;
+    vertical-align: middle;
+}
+#radio_noon{
+    width: 50px;
+    height: 50px;
+    vertical-align: middle;
+}
+#radio_night{
+    width: 50px;
+    height: 50px;
+    vertical-align: middle;
+}
+.label_timezone{
+    font-size: 40px;
+    vertical-align: middle;
+}
+.timezone_wrap{
+    padding-top: 10px;
+    text-align: center;
+}
 .figure{
     width: 10%;
     height: 10%;
     padding-left: 60px;
 }
 #graph{
-    padding-top: 10px;
     width: 100%;
     height: 100%;
 }
@@ -127,11 +169,17 @@ p.send_laundryposi{
     height: 150px;
     font-size: 100%;
 }
-
 .label_next6{
     padding-top: 10px;
     font-size: 500%;
     text-align: center;
+}
+p.goto_initial_pos{
+    text-align: left;
+    padding-top: 30px;
+}
+#goto_initial{
+    font-size: 150%;
 }
 
 
