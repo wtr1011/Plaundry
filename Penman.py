@@ -21,17 +21,17 @@ def penman(temperature,humidity,wind,insolation):
     #print(gamma)
     d = (1 - humidity/100) * e_a
     evaporation_rate = (delta * insolation + gamma * (6.43 * (1 + 0.536 * wind) * d)) / (lam * (delta + gamma))
-    print(evaporation_rate)
+    #print(evaporation_rate)
     time2dry = 0.075 / (0.5 * evaporation_rate / 86400)
 
     return time2dry
 
 
 if __name__ == "__main__":
-
-    temp = 13
-    humi = 87
-    win = 0
-    isola = 10.08
-    t = penman(temp,humi,win,isola)
-    print(t)
+    pass
+    #temp = 13
+    #humi = 87
+    #win = 0
+    #isola = 10.08
+    #t = penman(temp,humi,win,isola)
+    #print(t)
