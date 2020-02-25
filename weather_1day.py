@@ -9,9 +9,14 @@ import time
 
 def tenki_jp_day(postnumber):
 #返り値(リストインリスト）　
-#	引数  			    |
-#	(郵便番号(string) ) |	0:時間 1:天気 2:気温 3:降水確率 4:降水量 5:湿度 6:風向 7:風速(m/s)
+#	引数
+#	(郵便番号(string) )
 #
+#data[i][j]
+#i | 0:ヘッダー 1 ~ 24:データ
+#j | 0:時間 1:天気 2:気温 3:降水確率 4:降水量 5:湿度 6:風向 7:風速(m/s)
+#
+
 
     #郵便番号から場所特定、市町区村に対応
     search_url = requests.get("https://tenki.jp/search/?keyword=" + postnumber)
@@ -40,12 +45,12 @@ def tenki_jp_day(postnumber):
     for i in range(len(hour)):
         output_data.append([
             hour[i],
-            weather[i],
+            weather[i+1],
             temperature[i],
-            prob_precip[i],
+            prob_precip[i+1],
             precipitation[i],
-            humidity[i],
-            wind_blow[i],
+            humidity[i+1],
+            wind_blow[i+1],
             wind_speed[i],
         ])
 
