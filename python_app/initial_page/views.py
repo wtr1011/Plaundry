@@ -1,5 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http.response import HttpResponse
+from . import forms, models
+import numpy as np
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+
+postnumber=0
 
 # Create your views here.
 #start page
@@ -13,7 +20,9 @@ def get_post_query(request):
     }
     return render(request, 'init_postnumber.html', d)
 
+
 #get work time
+
 def get_worktime(request):
     d = {
         'worktime_start': request.GET.get('worktime_start'),
@@ -30,20 +39,32 @@ def get_laundryscale(request):
 
 #end setting
 def init_end_page(request):
-    return render(request, 'init_end.html')
+
+    return render(request, 'init_end.html', )
+
 
 #usual
 def usual_page(request):
-    #graph
-    import numpy as np
-    import matplotlib
-    matplotlib.use('Agg') # -----(1)
-    import matplotlib.pyplot as plt
+    global postnumber
+    num=0
+    userData = request.GET.get("sendJSON", None)
+    if "PostNumber" in request.GET:
+        postnumber = userData['PostNumber']
+        print(postnumber)
 
-# y = f(x)
+    graph_save()
+
+    d = {
+        'user':userData,
+        'number':num
+    }
+    return render(request, 'usual.html', d)
+
+def graph_save():
+    # y = f(x)
     x = np.linspace(-np.pi, np.pi)
-    y1 = np.sin(x)+np.cos(x)
-    y2 = np.cos(x)
+    y1 = np.sin(x)+np.cos(x/2) 
+    y2 = np.cos(x)+np.cos(x)
 
 # figure
     fig = plt.figure()
@@ -72,11 +93,6 @@ def usual_page(request):
 #スクレイピングのデータとdatabaseのデータより提案の処理、グラフをpng変換
 # save as png
     plt.savefig('./static/figure.png')
-
-    d = {
-        'is_visible':False,
-    }
-    return render(request, 'usual.html', d)
 
 #plan today page
 def today_plan(request):

@@ -5,22 +5,22 @@
   <meta charset="UTF-8">
   <link rel="stylesheet" href="{% static 'style.css' %}">
   <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
+  <script src="{% static '/script/Datastore.js' %}"></script>
+
 </head>
 <body>
         <p class="label_postnumber"><label>郵便番号</label></p>
         <p class="send_postposi">
-            <input id="input_postnumber" type="text" name="zip01" size="4" maxlength="3"> － <input id="input_postnumber" type="text" name="zip02" size="5" maxlength="4" onKeyUp="AjaxZip3.zip2addr('zip01','zip02','pref01','addr01');"><br><br><br><br>
-            <input class="output_post" type="text" name="pref01" size="20" readonly><br><br>
-            <input class="output_post" type="text" name="addr01" size="20" readonly><br><br><br>
-        </p>
-    <p class="label_yourpostnumber">
-    {% if your_postnumber %}
-        {{ your_postnumber }}
-    {% endif %}
-    </p>
+            <input style="font-size: 60px;width: 20%;text-align: center;border: 2px solid #ddd; " id="zip01" type="text" name="zip01" size="4" maxlength="3" > － <input style="font-size: 60px;width: 30%;text-align: center;border: 2px solid #ddd;" id="zip02" type="text" name="zip02" size="5" maxlength="4" onKeyUp="AjaxZip3.zip2addr('zip01','zip02','addr01','addr02');"><br><br><br><br>
 
-    <p class="label_next2">
-        <a href="{% url 'initial_page:get_worktime' %}">次へ</a>
-    </p>
+            <input style="width: 30%;height: 60%;font-size: 50px; text-align: center;" type="text" name="addr01" size="20" readonly>
+            <br><br><br>
+            <input style="width: 40%;height: 60%;font-size: 50px; text-align: center;" type="text" name="addr02" size="20" readonly>
+        </p>
+        <button onclick="setPostNumber()">set</button><br>
+        <button onclick="getPostNumber()">get</button>
+            <p style="text-align: center;padding-top: 200px;">
+                <label style="font-size: 500%;" onclick="requiredInput_post()">次へ</label>
+            </p>
 </body>
 </html>

@@ -6,16 +6,25 @@ import requests, bs4
 import re
 import time
 
-def tenki_jp(arg):
-#返り値(ダブルタプル）　
-#	引数  |
-#	True |	0:日付 1:天気 2:最高気温 3:最低気温 4:降水確率 5:紫外線量(5段階) 6:花粉量(5段階)
-#	False|	0:6時間毎 1:天気 2:気温 3:降水確率 4:湿度 5:風速
+def tenki_jp(arg, postnumber):
+#返り値(リストインリスト）　
+#	引数  			           |
+#	(True ,　郵便番号(string) ) |	0:日付 1:天気 2:最高気温 3:最低気温 4:降水確率 5:紫外線量(5段階) 6:花粉量(5段階)
+#	(False,　郵便番号(string) ) |	0:6時間毎 1:天気 2:気温 3:降水確率 4:湿度 5:風速
 #
-	res = requests.get('https://tenki.jp/forecast/3/17/4610/14203/10days.html')#平塚市
+	
+	#郵便番号から場所特定、市町区村に対応
+	search_url = requests.get("https://tenki.jp/search/?keyword=" + postnumber)
+	search_url.raise_for_status()
+	soup = bs4.BeautifulSoup(search_url.text, "html.parser")
+	for a in soup.p.find_all('a'):
+		place = a.get('href')
+
+	res = requests.get('https://tenki.jp' + place + '10days.html')
 	res.raise_for_status()
 	soup = bs4.BeautifulSoup(res.text, "html.parser")
 	print(soup.title)
+
 
 	#指定タグから余計なものを排除
 	for script in soup(["script", "style"]):
@@ -54,8 +63,8 @@ def tenki_jp(arg):
 	return output if arg else output2
 
 if __name__ == "__main__":
-	pass
+	#pass
 	#data = []
-	#data = tenki_jp(True)
+	data = tenki_jp(True,"2591206")
 	#for n in data:
 	#	print(n[0])
