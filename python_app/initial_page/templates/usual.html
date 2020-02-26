@@ -81,7 +81,7 @@ function removeBtn() {
 //更新（再度pythonを動かしてスクレイピングできる）
 $(function(){
   $('#btn2').on('click', function() {
-    getJSONForm('http://10.10.92.155:8000/initial/usual/');
+    getJSONForm('http://' + ipaddr + ':8000/initial/usual/');
     });
 });
 
@@ -110,7 +110,9 @@ $(function(){
     <input type="checkbox" id="chk1" /><label for="chk1">花粉量表示</label>
   </p>
     <p class="button_posi"><input type="button" id="btn2" value="更新" />　　<a href="{% url 'initial_page:today_plan' %}"><button type="button" id="btn3">今日の推奨時間</button></a>　<a href="{% url 'initial_page:weekly_plan' %}"><button type="button" id="btn4">週間の提案</button></a><p>
-    <p>{{user}}</p>
     <p>{{number}}</p>
+    <p>{{start}}</p>
+    <p>{{end}}</p>
+    <p>{{scale}}</p>
 </body>
 </html>
