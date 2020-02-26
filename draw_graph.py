@@ -1,3 +1,9 @@
+"""
+2020.2.26
+Riku Noguchi
+グラフを作成して保存
+"""
+
 import penman
 import weather
 import pandas as pd
@@ -9,6 +15,11 @@ import os
 
 #グラフ1枚を描画
 def draw_graph(data,save_dir):
+    """
+
+    :param data: 各時間帯の気象データ list
+    :param save_dir: 保存ディレクトリ str
+    """
 
     #グラフの縦軸横軸の宣言
     x = []
@@ -71,7 +82,11 @@ def draw_graph(data,save_dir):
 
 #朝昼夜のグラフを作成する
 def time_sep_and_draw_graph(postnumber,save_dir):
+    """
 
+    :param postnumber:郵便番号 ハイフン無し str
+    :param save_dir:  保存ディレクトリ str
+    """
     time_of_day = ["morning","noon","night"]
     weather_data = weather.tenki_jp(False,postnumber)
 
