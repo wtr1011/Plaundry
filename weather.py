@@ -64,7 +64,13 @@ def tenki_jp(arg, postnumber):
 
 if __name__ == "__main__":
 	#pass
-	#data = []
+
+	#example
+	#true
+	data_point = 7
+	#false
+	#data_point = 6
 	data = tenki_jp(True,"2591206")
-	#for n in data:
-	#	print(n[0])
+	for i in range(len(data)):
+		for j in range(data_point):
+			print(data[i][j])
