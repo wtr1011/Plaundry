@@ -72,5 +72,5 @@ if __name__ == "__main__":
 	#data_point = 6
 	data = tenki_jp(True,"2591206")
 	for i in range(len(data)):
-		for j in range(data_point):
-			print(data[i][j])
+		#for j in range(data_point):
+		print(data[i][0])
