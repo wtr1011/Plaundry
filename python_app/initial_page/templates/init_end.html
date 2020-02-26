@@ -5,16 +5,20 @@
   <meta charset="UTF-8">
   <link rel="stylesheet" href="{% static 'style.css' %}">
   <script src="{% static '/script/Datastore.js' %}"></script>
-
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+$(function(){
+  $(".label_next5").click(function(){
+    location.href = "{% url 'initial_page:usual_page' %}";
+  });
+});
+</script>
 </head>
 <body>
     <div class="title2">初期設定が終わりました</div>
     <p class="label_next5">
-        <a href="{% url 'initial_page:usual_page' %}" >これから先あなたが<br>洗濯日に困ることがないでしょう</a>
+        これから先あなたが<br>洗濯日に困ることがないでしょう
     </p>
-    <button onclick="getJSONForm('http://10.10.92.155:8000/initial/initend/')">save</button>
-    <p>
 
-    </p>
 </body>
 </html>

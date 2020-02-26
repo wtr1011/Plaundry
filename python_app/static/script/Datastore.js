@@ -34,7 +34,7 @@ if(localStorage.getItem('postnumber')){
 function requiredInput_post(){
   if((document.querySelector("#zip01").value) && (document.querySelector("#zip02").value)){
     setPostNumber();
-    location.href = "http://10.10.92.155:8000/initial/worktime/";
+    location.href = "http://192.168.2.101:8000/initial/worktime/";
   }
 }
 
@@ -42,8 +42,8 @@ function requiredInput_post(){
 
 function setWorkTime(){
   var data = {
-        end : document.querySelector("#starttime").value,
-        start : document.querySelector("#endtime").value
+        start : document.querySelector("#starttime").value,
+        end : document.querySelector("#endtime").value
   }
   localStorage.setItem("worktime", JSON.stringify(data));
 }
@@ -57,7 +57,7 @@ if(localStorage.getItem('worktime')){
 function requiredInput_work(){
   if((document.querySelector("#starttime").value) && (document.querySelector("#endtime").value)){
     setWorkTime();
-    location.href = "http://10.10.92.155:8000/initial/laundryscale/";
+    location.href = "http://192.168.2.101:8000/initial/laundryscale/";
   }
 }
 
@@ -68,6 +68,8 @@ function setLaundryScale(){
   var radioNodeList = element.q1 ;
   var data = radioNodeList.value ;
   localStorage.setItem("laundryscale", JSON.stringify(data));
+
+  getJSONForm('http://192.168.2.101:8000/initial/initend/');
 }
 
 function getLaundryScale(){
@@ -84,12 +86,7 @@ function createJSON(){
   worktime = JSON.parse(localStorage.getItem('worktime'));
   laundryscale = JSON.parse(localStorage.getItem('laundryscale'));
 
-  var json = {
-    "PostNumber": postnumber,
-    "StartWorkTime": worktime['start'],
-    "EndWorkTime": worktime['end'],
-    "LaundryScale": laundryscale
-  }
+  var json = postnumber + ',' + worktime['start'] + ',' + worktime['end'] + ',' + laundryscale
 
   var data = JSON.stringify(json)
   localStorage.setItem("Customer", JSON.stringify(json));

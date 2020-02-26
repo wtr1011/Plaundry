@@ -83,6 +83,24 @@ p.label_next4{
     text-align: center;
 }
 
+#btn_resistor{
+    padding-top: 200px;
+    font-size: 400%;
+}
+.btn_resistor_wrap{
+    text-align: center;
+}
+.label_next7{
+    padding-top: 200px;
+    font-size: 500%;
+    text-align: center;
+}
+.title3{
+    padding-top: 300px;
+    font-size: 400%;
+    text-align: center;
+}
+
 
 .title2{
     padding-top: 300px;

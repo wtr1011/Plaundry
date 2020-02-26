@@ -5,8 +5,13 @@ import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+from initial_page.python import result_day
 
+#グローバル変数でデータ保存
 postnumber=0
+starttime=0
+endtime=0
+scale=0
 
 # Create your views here.
 #start page
@@ -37,26 +42,32 @@ def get_laundryscale(request):
     }
     return render(request, 'init_laundryscale.html', d)
 
+
 #end setting
 def init_end_page(request):
+    global postnumber, starttime, endtime, scale
+    userData = request.GET.get("sendJSON", None)
+    if "sendJSON" in request.GET:
+        userData = userData.strip('"').split(',')
+        postnumber = userData[0]
+        starttime = userData[1]
+        endtime = userData[2]
+        scale = userData[3]
 
-    return render(request, 'init_end.html', )
+    return render(request, 'init_end.html')
 
 
 #usual
 def usual_page(request):
-    global postnumber
-    num=0
-    userData = request.GET.get("sendJSON", None)
-    if "PostNumber" in request.GET:
-        postnumber = userData['PostNumber']
-        print(postnumber)
+    global postnumber, starttime, endtime, scale
 
-    graph_save()
+    #graph_save()
 
     d = {
-        'user':userData,
-        'number':num
+        'number':postnumber,
+        'start':starttime,
+        'end':endtime,
+        'scale':scale
     }
     return render(request, 'usual.html', d)
 
@@ -93,14 +104,18 @@ def graph_save():
 #スクレイピングのデータとdatabaseのデータより提案の処理、グラフをpng変換
 # save as png
     plt.savefig('./static/figure.png')
+    plt.clf()
+
 
 #plan today page
 def today_plan(request):
+    global postnumber
     #スクレイピングのデータとdatabaseのデータより提案の処理、グラフをpng変換
-
+    time = result_day.output_time(postnumber)
 
     d = {
-        'time':"8:00 ~ 10:00"
+        'time':time,
+        'num':postnumber
     }
     return render(request, 'today_plan.html',d)
 
