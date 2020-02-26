@@ -42,7 +42,7 @@ def tenki_jp_day(postnumber):
     wind_speed = extractVal(table, "wind-speed")
     output_data = []
 
-    for i in range(len(hour)):
+    for i in range(1, len(hour)):
         output_data.append([
             hour[i],
             weather[i+1],
@@ -64,12 +64,13 @@ def extractVal(table, class_name):
     return data
 
 if __name__ == "__main__":
+    pass
     #max iterate
-    time = 24 #[h]
-    data_point = 8
+    #time = 24 #[h]
+    #data_point = 8
 
     #example
-    data = tenki_jp_day("2591206")
-    for i in range(time + 1):
-        for j in range(data_point):
-            print(data[i][j])
+    #data = tenki_jp_day("2591206")
+    #for i in range(time + 1):
+    #    for j in range(data_point):
+    #        print(data[i][j])
