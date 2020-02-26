@@ -18,6 +18,8 @@
 //（重要）送信（リクエスト）することで、python上での受け渡しが可能（重要）
 
 //////////////////////////////////////////////////////////////////////////////////
+ipaddr = "219.96.29.87";
+
 
 function setPostNumber(){
       var data = document.querySelector("#zip01").value + document.querySelector("#zip02").value
@@ -34,7 +36,7 @@ if(localStorage.getItem('postnumber')){
 function requiredInput_post(){
   if((document.querySelector("#zip01").value) && (document.querySelector("#zip02").value)){
     setPostNumber();
-    location.href = "http://192.168.2.101:8000/initial/worktime/";
+    location.href = "http://" + ipaddr +":8000/initial/worktime/";
   }
 }
 
@@ -57,7 +59,7 @@ if(localStorage.getItem('worktime')){
 function requiredInput_work(){
   if((document.querySelector("#starttime").value) && (document.querySelector("#endtime").value)){
     setWorkTime();
-    location.href = "http://192.168.2.101:8000/initial/laundryscale/";
+    location.href = "http://" + ipaddr + ":8000/initial/laundryscale/";
   }
 }
 
@@ -69,7 +71,7 @@ function setLaundryScale(){
   var data = radioNodeList.value ;
   localStorage.setItem("laundryscale", JSON.stringify(data));
 
-  getJSONForm('http://192.168.2.101:8000/initial/initend/');
+  getJSONForm('http://' + ipaddr + ':8000/initial/initend/');
 }
 
 function getLaundryScale(){
@@ -114,3 +116,8 @@ function getJSONForm(actionURL) {
 }
 
 //////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+

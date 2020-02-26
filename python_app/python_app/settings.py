@@ -27,10 +27,11 @@ DEBUG = True
 
 #aonuma
 #home server address
-ALLOWED_HOSTS = ['192.168.2.101']
+#ALLOWED_HOSTS = ['192.168.2.101']
 #18 wifi
 #ALLOWED_HOSTS = ['10.10.92.155']
-
+#5 jitu
+ALLOWED_HOSTS = ["219.96.29.87"]
 
 # Application definition
 

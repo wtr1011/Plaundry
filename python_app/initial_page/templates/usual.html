@@ -81,7 +81,7 @@ function removeBtn() {
 //更新（再度pythonを動かしてスクレイピングできる）
 $(function(){
   $('#btn2').on('click', function() {
-    getJSONForm('http://192.168.2.101:8000/initial/usual/');
+    getJSONForm('http://' + ipaddr + ':8000/initial/usual/');
     });
 });
 
