@@ -37,12 +37,15 @@ def createPenmanArray(postnumber):
         if (('月' in data[i][0])|('日' in data[i][0])):
             bgn_index = i
             break
-
+    
+    #当日の日付
+    date_colum.append(data[0][0].replace('月', '/')[:-4] )
     #5個飛ばしで先頭（0-6）を探す
-    for i in range(bgn_index, len(data)-16, 5):
+    for i in range(bgn_index, len(data)-21, 5):
         week.append([ data[i + 1], data[i + 2], data[i + 3], data[i + 4]])
+        #翌日以降の日付
         date_colum.append(data[i][0].replace('月', '/')[:-4] )
-        #print(data[i][0].replace('月', '/')[:-4] )
+        #print(data[i][0])
 
     #当日
     maxtime = 24    #24時間
@@ -79,14 +82,13 @@ def createPenmanArray(postnumber):
 
     return penmanArray, time_index, date_colum
 
-def weekly_penman():
-
-
-    return weekly
-
+#テーブル作成
 def createTable(array, time_index, date_colum):
     array_t = np.array(array).T
     df = pd.DataFrame(array_t, index=time_index, columns=date_colum)
+    #df.style.background_gradient(cmap='winter')
+    #df.plot()
+    print(df)
     fig, ax = plt.subplots(figsize=(10,10))
     ax.axis('off')
     ax.axis('tight')
@@ -96,7 +98,7 @@ def createTable(array, time_index, date_colum):
              loc='center',
              bbox=[0,0,1,1])
 
-    plt.show()
+    #plt.show()
     #plt.savefig('table.png')
 
 if __name__ == "__main__":
