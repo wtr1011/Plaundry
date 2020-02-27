@@ -50,7 +50,7 @@ def tenki_jp_All(postnumber):
 	for n in range(len(index) -1):
 		temp = lines[index[n]+2].strip('℃')	#最高気温と最低気温が同じ配列なので分解
 		#テキスト出力
-		buf = [lines[index[n]], lines[index[n]+1], temp, lines[index[n]+3], lines[index[n]+5], lines[index[n]+6], lines[index[n]+7]]
+		buf = [lines[index[n]], lines[index[n]+1], temp, lines[index[n]+3], lines[index[n]+5].strip('%'), lines[index[n]+6].strip('m/s'), lines[index[n]+7]]
 		output.append(buf)
 		buf = []
 
@@ -60,7 +60,7 @@ if __name__ == "__main__":
 	pass
 
 	#example
-	#data = tenki_jp("2591206")
+	#data = tenki_jp_All("2591206")
 	#for i in range(len(data)):
 		#for j in range(data_point):
-	#	print(data[i])
+		#print(data[i])
