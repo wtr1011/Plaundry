@@ -24,7 +24,7 @@ def tenki_jp_All(postnumber):
 	res = requests.get('https://tenki.jp' + place + '10days.html')
 	res.raise_for_status()
 	soup = bs4.BeautifulSoup(res.text, "html.parser")
-	print(soup.title)
+	#print(soup.title)
 
 
 	#指定タグから余計なものを排除
