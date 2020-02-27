@@ -8,7 +8,6 @@ from weather_1day import tenki_jp_day
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import plotly.graph_objects as go
 
 def createPenmanArray(postnumber):
     #1時〜0時
@@ -20,9 +19,10 @@ def createPenmanArray(postnumber):
     isola_rainy = 0.000001
 
     day = []
-    date = []
+    date_colum = []
     week = []
     penmanArray = []
+    time_index = []
 
     #当日のデータ
     week.append(tenki_jp_day(postnumber))
@@ -39,18 +39,21 @@ def createPenmanArray(postnumber):
             break
 
     #5個飛ばしで先頭（0-6）を探す
-    for i in range(bgn_index, len(data)-1, 5):
+    for i in range(bgn_index, len(data)-16, 5):
         week.append([ data[i + 1], data[i + 2], data[i + 3], data[i + 4]])
+        date_colum.append(data[i][0].replace('月', '/')[:-4] )
+        #print(data[i][0].replace('月', '/')[:-4] )
 
     #当日
     maxtime = 24    #24時間
     for j in range(maxtime):
         if '晴れ' in week[0][j][1]:
-            day.append( round(1 / Penman.penman(float(week[0][j][2]), float(week[0][j][5]), float(week[0][j][7]), isola_sunny[j]), 3))
+            day.append( round(10000 / Penman.penman(float(week[0][j][2]), float(week[0][j][5]), float(week[0][j][7]), isola_sunny[j]), 3))
         elif '曇り' in week[0][j][1]:
-            day.append( round(1 / Penman.penman(float(week[0][j][2]), float(week[0][j][5]), float(week[0][j][7]), isola_cloudy[j]), 3))
+            day.append( round(10000 / Penman.penman(float(week[0][j][2]), float(week[0][j][5]), float(week[0][j][7]), isola_cloudy[j]), 3))
         else:
-            day.append( round(1 / Penman.penman(float(week[0][j][2]), 100, float(week[0][j][7]), isola_rainy), 3))
+            day.append( round(10000 / Penman.penman(float(week[0][j][2]), 100, float(week[0][j][7]), isola_rainy), 3))
+        time_index.append(week[0][j][0])
     penmanArray.append(day)
     day = []
 
@@ -60,57 +63,43 @@ def createPenmanArray(postnumber):
         for j in range(4):          #4区切り(6時間毎)
             for n in range(6):      #1区切りに6個のデータ
                 if '晴' == week[i][j][1]:
-                    day.append( round(1 / Penman.penman(float(week[i][j][2]), float(week[i][j][4]), float(week[i][j][5]), isola_sunny[isola_index]), 3))
+                    day.append( round(10000 / Penman.penman(float(week[i][j][2]), float(week[i][j][4]), float(week[i][j][5]), isola_sunny[isola_index]), 3))
                 elif '曇' == week[i][j][1]:
-                    day.append( round(1 / Penman.penman(float(week[i][j][2]), float(week[i][j][4]), float(week[i][j][5]), isola_cloudy[isola_index]), 3))
+                    day.append( round(10000 / Penman.penman(float(week[i][j][2]), float(week[i][j][4]), float(week[i][j][5]), isola_cloudy[isola_index]), 3))
                 elif '晴のち曇' == week[i][j][1]:
-                    day.append( round(1 / Penman.penman(float(week[i][j][2]), float(week[i][j][4]), float(week[i][j][5]), isola_cloudy[isola_index]), 3))
+                    day.append( round(10000 / Penman.penman(float(week[i][j][2]), float(week[i][j][4]), float(week[i][j][5]), isola_cloudy[isola_index]), 3))
                 elif '曇のち晴' == week[i][j][1]:
-                    day.append( round(1 / Penman.penman(float(week[i][j][2]), float(week[i][j][4]), float(week[i][j][5]), isola_sunny[isola_index]), 3))
+                    day.append( round(10000 / Penman.penman(float(week[i][j][2]), float(week[i][j][4]), float(week[i][j][5]), isola_sunny[isola_index]), 3))
                 else:
-                    day.append( round(1 / Penman.penman(float(week[i][j][2]), 100, float(week[i][j][5]), isola_rainy), 3))
+                    day.append( round(10000 / Penman.penman(float(week[i][j][2]), 100, float(week[i][j][5]), isola_rainy), 3))
                 isola_index += 1
         isola_index = 0
         penmanArray.append(day)
         day = []
 
-    return penmanArray
+    return penmanArray, time_index, date_colum
 
 def weekly_penman():
 
 
     return weekly
 
-def createTable(array):
-    df = pd.DataFrame(array)
-
-    """
-    cm = sns.light_palette("red", as_cmap=True)
-    df.style.background_gradient(cmap=cm)
-    fig, ax = plt.subplots(figsize=(2,2))
+def createTable(array, time_index, date_colum):
+    array_t = np.array(array).T
+    df = pd.DataFrame(array_t, index=time_index, columns=date_colum)
+    fig, ax = plt.subplots(figsize=(10,10))
     ax.axis('off')
     ax.axis('tight')
     ax.table(cellText=df.values,
              colLabels=df.columns,
+             rowLabels=df.index,
              loc='center',
              bbox=[0,0,1,1])
 
     plt.show()
     #plt.savefig('table.png')
-    """
-    #テーブルの作成
-    fig = go.Figure(data=[go.Table(
-        columnwidth =  [10, 20, 30, 40], #カラム幅の変更
-        header=dict(values=df.columns, align='center', font_size=20),
-        cells=dict(values=df.values.T, align='center', font_size=10)
-        )])
-    fig.update_layout(title={'text': "sample_table",'y':0.85,'x':0.5,'xanchor': 'center'})#タイトル位置の調整
-    fig.layout.title.font.size= 24 #タイトルフォントサイズの変更
-    #fig.write_image("sample_table.jpg")#,height=600, width=800)
-    #fig.write_image("sample_table.jpg",height=600, width=800) #デーブルのサイズ変更
-    fig.show()
 
 if __name__ == "__main__":
     postnum = "2591206"
-    data = createPenmanArray(postnum)
-    createTable(data)
+    data, time, date = createPenmanArray(postnum)
+    createTable(data, time, date)
