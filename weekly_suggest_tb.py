@@ -8,6 +8,7 @@ from weather_1day import tenki_jp_day
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from matplotlib import colors
 
 def createPenmanArray(postnumber):
     #1時〜0時
@@ -37,7 +38,7 @@ def createPenmanArray(postnumber):
         if (('月' in data[i][0])|('日' in data[i][0])):
             bgn_index = i
             break
-    
+
     #当日の日付
     date_colum.append(data[0][0].replace('月', '/')[:-4] )
     #5個飛ばしで先頭（0-6）を探す
@@ -89,12 +90,14 @@ def createTable(array, time_index, date_colum):
     #df.style.background_gradient(cmap='winter')
     #df.plot()
     #print(df)
+    #colors = plt.cm.BuPu(np.linspace(0, 0.5, len(array)))
     fig, ax = plt.subplots(figsize=(10,10))
     ax.axis('off')
     ax.axis('tight')
     ax.table(cellText=df.values,
              colLabels=df.columns,
              rowLabels=df.index,
+             cellColours=coloring(array_t),#plt.cm.bwr(array_t/15.0),
              loc='center',
              bbox=[0,0,1,1])
 
@@ -105,7 +108,28 @@ def executeCreateTable(postnumber):
     data, time, date = createPenmanArray(postnumber)
     createTable(data, time, date)
 
+def coloring(data):
+    color_data = np.full((24, 7), '1111111')
+
+    level = data.max()
+    i, j = 0, 0
+    for day in data:
+        for val in day:
+            if ( level*(3/4) < val <=  level):
+                color_data[i][j] = '#FF0000'
+            elif ( level*(2/4) < val <=  level*(3/4)):
+                color_data[i][j] = '#FFA500' #orangered
+            elif ( level*(1/4) < val <=  level*(2/4)):
+                color_data[i, j] = '#00FFFF'
+            elif ( 0 <= val <=  level*(1/4)):
+                color_data[i][j] = '#1E90FF' #dodgerblue
+            else:
+                color_data[i][j] = '#708090' #slategray
+            j += 1
+        j = 0
+        i += 1
+
+    return color_data
 
 if __name__ == "__main__":
     executeCreateTable('2591206')
-    
