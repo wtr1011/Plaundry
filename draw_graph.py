@@ -71,7 +71,7 @@ def draw_graph(data,save_dir):
     fig = plt.figure()
 
     # matplotlibの設定
-    plt.rcParams["font.size"] = 15
+    plt.rcParams["font.size"] = 12
     plt.ylim([0,0.002])
     plt.tick_params(left=False)
     plt.yticks([])

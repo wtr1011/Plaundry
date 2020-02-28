@@ -3,7 +3,7 @@
 # -*- encoding: utf-8  -*-
 
 from initial_page.python import weather_1day
-from initial_page.python import Penman
+from initial_page.python import penman
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -18,15 +18,33 @@ def output_time(postnumber):
     maxtime = 24 #[h]
     data_point = 8
 
-    isola = 10.08#
+      #1時〜0時
+    #晴れ　2020/2/25 9:00:00、座標：35.40N 137.00E
+    isola_sunny = [0.00001,0.00001,0.00001,0.00001,0.00001,0.00001,0.09,0.75,1.44,2.01,2.42,2.64,2.66,2.47,2.09,1.54,0.86,0.16,0.00001,0.00001,0.00001,0.00001,0.00001,0.00001]
+
+    #曇り　2020/2/25 9:00:00、座標：40.20N 141.00E
+    isola_cloudy = [0.00001,0.00001,0.00001,0.00001,0.00001,0.00001,0.08,0.32,0.48,0.65,0.88,1.05,1.05,0.99,0.82,0.53,0.23,0.01,0.00001,0.00001,0.00001,0.00001,0.00001,0.00001]
+
+    #雨
+    isola_rainy = 0.00001
 
     data = weather_1day.tenki_jp_day(postnumber)
 
-    for i in range(1, maxtime + 1):
-        drytime.append(1/Penman.penman(float(data[i][2]), float(data[i][5]), float(data[i][7]), isola))
+    for i in range(maxtime):
+        if '晴れ' in data[i][1]:
+            drytime.append(1/penman.penman(float(data[i][2]), float(data[i][5]), float(data[i][7]), isola_sunny[i - 1]))
+        elif '曇り' in data[i][1]:
+            drytime.append(1/penman.penman(float(data[i][2]), float(data[i][5]), float(data[i][7]), isola_cloudy[i - 1]))
+        else:
+            drytime.append(1/penman.penman(float(data[i][2]), 100, float(data[i][7]), isola_rainy))
+
         time.append(int(data[i][0]))
 
+    plt.xticks(np.arange(0, 25, 1))
+    plt.tick_params(left=False)
+    plt.yticks([])
     plt.bar(time, drytime)
+    plt.subplots_adjust(left=0.1, right=0.95, bottom=0.1, top=1.0)
     plt.savefig('./static/day.png')
     plt.clf()
     penman_max_index = np.argmax(drytime)

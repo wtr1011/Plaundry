@@ -6,19 +6,18 @@
   <link rel="stylesheet" href="{% static 'style.css' %}">
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+<script src="{% static '/script/Datastore.js' %}"></script>
 
 </head>
 <body>
-    <p class="figure_today"><img id="graph" src='{% static "figure.png" %}' alt="graph" border="0"></p>
-    <p class="label_weekly_plan">推奨は
+    <p style="text-align: center;padding-top: 50px;"><label style="font-size: 300%;">週間スケジュール</label></p>
+    <p class="figure_today"><img id="graph" src='{% static "table.png" %}' alt="graph" border="0"></p>
+    <p class="label_weekly_plan" style="font-size: 200%;">推奨日は
         <p>月曜</p><p class="label_weekly_plan">{% for idx in mon_plan %}{{ idx }}　{% endfor %}</p>
         <p>火曜</p><p class="label_weekly_plan">{% for idx in tue_plan %}{{ idx }}　{% endfor %}</p>
         <p>水曜</p><p class="label_weekly_plan">{% for idx in wed_plan %}{{ idx }}　{% endfor %}</p>
-        <p>木曜</p><p class="label_weekly_plan">{% for idx in thr_plan %}{{ idx }}　{% endfor %}</p>
-        <p>金曜</p><p class="label_weekly_plan">{% for idx in fri_plan %}{{ idx }}　{% endfor %}</p>
-        <p>土曜</p><p class="label_weekly_plan">{% for idx in sat_plan %}{{ idx }}　{% endfor %}</p>
-        <p>日曜</p><p class="label_weekly_plan">{% for idx in sun_plan %}{{ idx }}　{% endfor %}</p>
     </p>
-    <a href="{% url 'initial_page:usual_page' %}"><p class="btn5_pos"><button type="button" id="btn5">戻る</button></p></a>
+    <p style="text-align: center;"><label style="font-size: 200%;">です！</label></p>
+    <p class="btn5_pos" style="padding-top: 50px;"><button type="button" id="btn5" onclick="getJSONForm('http://' + ipaddr + ':8000/initial/usual');">戻る</button></p>
 </body>
 </html>
