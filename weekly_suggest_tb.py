@@ -126,9 +126,10 @@ def coloring(data):
             else:
                 color_data[i][j] = '#708090' #slategray
             j += 1
+
         j = 0
         i += 1
-
+    #color list array
     return color_data
 
 if __name__ == "__main__":
