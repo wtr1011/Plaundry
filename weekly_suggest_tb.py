@@ -87,27 +87,42 @@ def createPenmanArray(postnumber):
 def createTable(array, time_index, date_colum):
     array_t = np.array(array).T
     df = pd.DataFrame(array_t, index=time_index, columns=date_colum)
-    #df.style.background_gradient(cmap='winter')
-    #df.plot()
-    #print(df)
-    #colors = plt.cm.BuPu(np.linspace(0, 0.5, len(array)))
+
     fig, ax = plt.subplots(figsize=(10,10))
     ax.axis('off')
     ax.axis('tight')
     ax.table(cellText=df.values,
              colLabels=df.columns,
              rowLabels=df.index,
-             cellColours=coloring(array_t),#plt.cm.bwr(array_t/15.0),
+             cellColours=coloring(array_t),
              loc='center',
              bbox=[0,0,1,1])
 
-    #plt.show()
     plt.savefig('./table.png')
+    plt.clf()
+
+    df_max_week_index = df.idxmax()
+    Dict = {
+        df[df_max_week_index.index[0]][df_max_week_index.values[0]]:[df_max_week_index.index[0], df_max_week_index.values[0]],
+        df[df_max_week_index.index[1]][df_max_week_index.values[1]]:[df_max_week_index.index[1], df_max_week_index.values[1]],
+        df[df_max_week_index.index[2]][df_max_week_index.values[2]]:[df_max_week_index.index[2], df_max_week_index.values[2]],
+        df[df_max_week_index.index[3]][df_max_week_index.values[3]]:[df_max_week_index.index[3], df_max_week_index.values[3]],
+        df[df_max_week_index.index[4]][df_max_week_index.values[4]]:[df_max_week_index.index[4], df_max_week_index.values[4]],
+        df[df_max_week_index.index[5]][df_max_week_index.values[5]]:[df_max_week_index.index[5], df_max_week_index.values[5]],
+        df[df_max_week_index.index[6]][df_max_week_index.values[6]]:[df_max_week_index.index[6], df_max_week_index.values[6]]
+    }
+    sortedDict = sorted(Dict.items())
+    max_3rank = [sortedDict[-1], sortedDict[-2], sortedDict[-3]]
+    
+    return max_3rank
+
 
 def executeCreateTable(postnumber):
     data, time, date = createPenmanArray(postnumber)
-    createTable(data, time, date)
 
+    return createTable(data, time, date)
+
+    #color list array
 def coloring(data):
     color_data = np.full((24, 7), '1111111')
 
@@ -116,20 +131,20 @@ def coloring(data):
     for day in data:
         for val in day:
             if ( level*(3/4) < val <=  level):
-                color_data[i][j] = '#FF0000'
+                color_data[i][j] = '#F08080'
             elif ( level*(2/4) < val <=  level*(3/4)):
-                color_data[i][j] = '#FFA500' #orangered
+                color_data[i][j] = '#FFDEAD' #orangered
             elif ( level*(1/4) < val <=  level*(2/4)):
-                color_data[i, j] = '#00FFFF'
+                color_data[i, j] = '#48D1CC'
             elif ( 0 <= val <=  level*(1/4)):
-                color_data[i][j] = '#1E90FF' #dodgerblue
+                color_data[i][j] = '#6495ED' #dodgerblue
             else:
                 color_data[i][j] = '#708090' #slategray
             j += 1
-
         j = 0
         i += 1
-    #color list array
+
+ 
     return color_data
 
 if __name__ == "__main__":
