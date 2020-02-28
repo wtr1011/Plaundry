@@ -2,9 +2,9 @@
 #Yusuke Aonuma
 # -*- encoding: utf-8  -*-
 
-import penman
-from weather_10days import tenki_jp_All
-from weather_1day import tenki_jp_day
+from initial_page.python import penman
+from initial_page.python.weather_10days import tenki_jp_All
+from initial_page.python.weather_1day import tenki_jp_day
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -46,7 +46,6 @@ def createPenmanArray(postnumber):
         #翌日以降の日付
         date_colum.append(data[i][0].replace('月', '/')[:-4] )
         #print(data[i][0])
-
     #当日
     maxtime = 24    #24時間
     for j in range(maxtime):
@@ -97,9 +96,9 @@ def createTable(array, time_index, date_colum):
              rowLabels=df.index,
              loc='center',
              bbox=[0,0,1,1])
-
+    plt.subplots_adjust(left=0.1, right=0.95, bottom=0.1, top=1.0)
     #plt.show()
-    plt.savefig('./table.png')
+    plt.savefig('./static/table.png')
 
 def executeCreateTable(postnumber):
     data, time, date = createPenmanArray(postnumber)
@@ -107,5 +106,5 @@ def executeCreateTable(postnumber):
 
 
 if __name__ == "__main__":
-    executeCreateTable('2591206')
+    pass
     

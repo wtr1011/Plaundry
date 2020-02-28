@@ -6,6 +6,8 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from initial_page.python import result_day
+from initial_page.python.draw_graph import time_sep_and_draw_graph
+from initial_page.python.weekly_suggest_tb import executeCreateTable
 
 #グローバル変数でデータ保存
 postnumber=0
@@ -60,16 +62,64 @@ def init_end_page(request):
 #usual
 def usual_page(request):
     global postnumber, starttime, endtime, scale
-
+    userData = request.GET.get("sendJSON", None)
+    if "sendJSON" in request.GET:
+        userData = userData.strip('"').split(',')
+        postnumber = userData[0]
+        starttime = userData[1]
+        endtime = userData[2]
+        scale = userData[3]
+    #postnumber="2591292"
     #graph_save()
+    time_sep_and_draw_graph(postnumber,"./static/")
+    print(postnumber)
+    return render(request, 'usual.html')
+
+
+#plan today page
+def today_plan(request):
+    global postnumber, starttime, endtime, scale
+    userData = request.GET.get("sendJSON", None)
+    if "sendJSON" in request.GET:
+        userData = userData.strip('"').split(',')
+        postnumber = userData[0]
+        starttime = userData[1]
+        endtime = userData[2]
+        scale = userData[3]
+    #スクレイピングのデータとdatabaseのデータより提案の処理、グラフをpng変換
+    time = result_day.output_time(postnumber)
 
     d = {
-        'number':postnumber,
-        'start':starttime,
-        'end':endtime,
-        'scale':scale
+        'time':time,
+        'num':postnumber
     }
-    return render(request, 'usual.html', d)
+    return render(request, 'today_plan.html',d)
+
+#plan week page
+def weekly_plan(request):
+    global postnumber, starttime, endtime, scale
+    userData = request.GET.get("sendJSON", None)
+    if "sendJSON" in request.GET:
+        userData = userData.strip('"').split(',')
+        postnumber = userData[0]
+        starttime = userData[1]
+        endtime = userData[2]
+        scale = userData[3]
+    #スクレイピングのデータとdatabaseのデータより提案の処理、グラフをpng変換
+
+    executeCreateTable(postnumber)
+    d = {
+        'mon_plan':["8:00 ~ 9:00", "9:00 ~ 10:00"],
+        'tue_plan':["11:00 ~ 14:00"],
+        'wed_plan':["8:00 ~ 9:00", "9:00 ~ 10:00", "11:00 ~ 12:00"],
+        'thr_plan':["8:00 ~ 9:00"],
+        'fri_plan':["8:00 ~ 9:00", "9:00 ~ 10:00", "16:00 ~ 17:00", "20:00 ~ 21:00", "22:00 ~ 24:00"],
+        'sat_plan':["8:00 ~ 9:00", "10:00 ~ 11:00"],
+        'sun_plan':["8:00 ~ 24:00"],
+    }
+    return render(request, 'week_plan.html')
+
+
 
 def graph_save():
     # y = f(x)
@@ -105,32 +155,3 @@ def graph_save():
 # save as png
     plt.savefig('./static/figure.png')
     plt.clf()
-
-
-#plan today page
-def today_plan(request):
-    global postnumber
-    #スクレイピングのデータとdatabaseのデータより提案の処理、グラフをpng変換
-    time = result_day.output_time(postnumber)
-
-    d = {
-        'time':time,
-        'num':postnumber
-    }
-    return render(request, 'today_plan.html',d)
-
-#plan week page
-def weekly_plan(request):
-    #スクレイピングのデータとdatabaseのデータより提案の処理、グラフをpng変換
-
-
-    d = {
-        'mon_plan':["8:00 ~ 9:00", "9:00 ~ 10:00"],
-        'tue_plan':["11:00 ~ 14:00"],
-        'wed_plan':["8:00 ~ 9:00", "9:00 ~ 10:00", "11:00 ~ 12:00"],
-        'thr_plan':["8:00 ~ 9:00"],
-        'fri_plan':["8:00 ~ 9:00", "9:00 ~ 10:00", "16:00 ~ 17:00", "20:00 ~ 21:00", "22:00 ~ 24:00"],
-        'sat_plan':["8:00 ~ 9:00", "10:00 ~ 11:00"],
-        'sun_plan':["8:00 ~ 24:00"],
-    }
-    return render(request, 'week_plan.html',d)

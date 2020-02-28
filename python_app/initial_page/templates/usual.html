@@ -33,13 +33,13 @@ function graphView(){
   if(pollen){
       switch(timezone_status){
         case '1':
-    　    $('#graph').html('<img id="graph" src="{% static "morning_p.png" %}" alt="graph" border="0">');
+    　    $('#graph').html('<img id="graph" src="{% static "morning_pollen.png" %}" alt="graph" border="0">');
           break;
         case '2':
-          $('#graph').html('<img id="graph" src="{% static "noon_p.png" %}" alt="graph" border="0">');
+          $('#graph').html('<img id="graph" src="{% static "noon_pollen.png" %}" alt="graph" border="0">');
           break;
         case '3':
-          $('#graph').html('<img id="graph" src="{% static "night_p.png" %}" alt="graph" border="0">');
+          $('#graph').html('<img id="graph" src="{% static "night_pollen.png" %}" alt="graph" border="0">');
           break;
       }
     }
@@ -106,13 +106,10 @@ $(function(){
       <label class="label_timezone">夜</label>
     </div>
   </form>
-  <p class="toggle_posi">　　　　
-    <input type="checkbox" id="chk1" /><label for="chk1">花粉量表示</label>
+  <p class="toggle_posi">　　　
+    　　　　　<input type="checkbox" id="chk1" /><label for="chk1">花粉量表示</label>
   </p>
-    <p class="button_posi"><input type="button" id="btn2" value="更新" />　　<a href="{% url 'initial_page:today_plan' %}"><button type="button" id="btn3">今日の推奨時間</button></a>　<a href="{% url 'initial_page:weekly_plan' %}"><button type="button" id="btn4">週間の提案</button></a><p>
-    <p>{{number}}</p>
-    <p>{{start}}</p>
-    <p>{{end}}</p>
-    <p>{{scale}}</p>
+  <p style="padding-top: 50px;padding-left: 100px;"><label style="font-size: 250%;">洗濯カゴの占有率：</label>　</p>
+    <p class="button_posi"><input type="button" id="btn2" value="更新" />　　<button type="button" id="btn3" onclick="getJSONForm('http://' + ipaddr + ':8000/initial/today');">今日の推奨時間</button>　<button type="button" id="btn4" onclick="getJSONForm('http://' + ipaddr + ':8000/initial/weekly');">週間の提案</button><p>
 </body>
 </html>

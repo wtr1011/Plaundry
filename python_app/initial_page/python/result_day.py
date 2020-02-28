@@ -3,7 +3,7 @@
 # -*- encoding: utf-8  -*-
 
 from initial_page.python import weather_1day
-from initial_page.python import Penman
+from initial_page.python import penman
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -30,17 +30,21 @@ def output_time(postnumber):
 
     data = weather_1day.tenki_jp_day(postnumber)
 
-    for i in range(1, maxtime + 1):
+    for i in range(maxtime):
         if '晴れ' in data[i][1]:
-            drytime.append(1/Penman.penman(float(data[i][2]), float(data[i][5]), float(data[i][7]), isola_sunny[i - 1]))
+            drytime.append(1/penman.penman(float(data[i][2]), float(data[i][5]), float(data[i][7]), isola_sunny[i - 1]))
         elif '曇り' in data[i][1]:
-            drytime.append(1/Penman.penman(float(data[i][2]), float(data[i][5]), float(data[i][7]), isola_cloudy[i - 1]))
+            drytime.append(1/penman.penman(float(data[i][2]), float(data[i][5]), float(data[i][7]), isola_cloudy[i - 1]))
         else:
-            drytime.append(1/Penman.penman(float(data[i][2]), 100, float(data[i][7]), isola_rainy))
+            drytime.append(1/penman.penman(float(data[i][2]), 100, float(data[i][7]), isola_rainy))
 
         time.append(int(data[i][0]))
 
+    plt.xticks(np.arange(0, 25, 1))
+    plt.tick_params(left=False)
+    plt.yticks([])
     plt.bar(time, drytime)
+    plt.subplots_adjust(left=0.1, right=0.95, bottom=0.1, top=1.0)
     plt.savefig('./static/day.png')
     plt.clf()
     penman_max_index = np.argmax(drytime)

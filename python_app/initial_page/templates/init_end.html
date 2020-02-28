@@ -9,7 +9,7 @@
 <script>
 $(function(){
   $(".label_next5").click(function(){
-    location.href = "{% url 'initial_page:usual_page' %}";
+    getJSONForm('http://' + ipaddr + ':8000/initial/usual');
   });
 });
 </script>
