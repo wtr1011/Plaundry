@@ -86,6 +86,7 @@ def createPenmanArray(postnumber):
 #テーブル作成
 def createTable(array, time_index, date_colum):
     array_t = np.array(array).T
+    max_index_array = []
     df = pd.DataFrame(array_t, index=time_index, columns=date_colum)
     #df.style.background_gradient(cmap='winter')
     #df.plot()
@@ -97,20 +98,21 @@ def createTable(array, time_index, date_colum):
     ax.table(cellText=df.values,
              colLabels=df.columns,
              rowLabels=df.index,
-             cellColours=coloring(array_t),#plt.cm.bwr(array_t/15.0),
+             cellColours=coloring(array_t, max_index_array)
              loc='center',
              bbox=[0,0,1,1])
 
-    #plt.show()
-    
     plt.savefig('./static/table.png')
     plt.clf()
+
+    for maxdata_pos in max_index_array:
+        print(array_t[max_index_array])
 
 def executeCreateTable(postnumber):
     data, time, date = createPenmanArray(postnumber)
     createTable(data, time, date)
 
-def coloring(data):
+def coloring(data, max_index_array):
     color_data = np.full((24, 7), '1111111')
 
     level = data.max()
@@ -119,6 +121,7 @@ def coloring(data):
         for val in day:
             if ( level*(3/4) < val <=  level):
                 color_data[i][j] = '#FF0000'
+                max_index_array.append([i, j])
             elif ( level*(2/4) < val <=  level*(3/4)):
                 color_data[i][j] = '#FFA500' #orangered
             elif ( level*(1/4) < val <=  level*(2/4)):
