@@ -103,7 +103,7 @@ def draw_graph_pollen(data, pollen_data, save_dir):
 
     #plt.show()
     fig.savefig(str(save_dir+type_of_graph+"_pollen.png"))
-
+    plt.close(fig)
     plt.clf()
 
 #グラフ1枚を描画
@@ -170,6 +170,7 @@ def draw_graph(data, save_dir):
     plt.bar(x,y[:7])
     #plt.show()
     fig.savefig(str(save_dir+type_of_graph+".png"))
+    plt.close(fig)
 
     plt.clf()
 #朝昼夜のグラフを作成する

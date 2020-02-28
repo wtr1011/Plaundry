@@ -99,7 +99,7 @@ def createTable(array, time_index, date_colum):
     plt.subplots_adjust(left=0.1, right=0.95, bottom=0.1, top=1.0)
     #plt.show()
     plt.savefig('./static/table.png')
-
+    plt.clf()
 def executeCreateTable(postnumber):
     data, time, date = createPenmanArray(postnumber)
     createTable(data, time, date)
