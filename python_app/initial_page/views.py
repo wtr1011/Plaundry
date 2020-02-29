@@ -69,8 +69,6 @@ def usual_page(request):
         starttime = userData[1]
         endtime = userData[2]
         scale = userData[3]
-    #postnumber="2591292"
-    #graph_save()
     time_sep_and_draw_graph(postnumber,"./static/")
     print(postnumber)
     return render(request, 'usual.html')
@@ -86,7 +84,7 @@ def today_plan(request):
         starttime = userData[1]
         endtime = userData[2]
         scale = userData[3]
-    #スクレイピングのデータとdatabaseのデータより提案の処理、グラフをpng変換
+
     time = result_day.output_time(postnumber)
 
     d = {
@@ -105,7 +103,6 @@ def weekly_plan(request):
         starttime = userData[1]
         endtime = userData[2]
         scale = userData[3]
-    #スクレイピングのデータとdatabaseのデータより提案の処理、グラフをpng変換
 
     rank3 = executeCreateTable(postnumber, starttime, endtime)
     d = {
@@ -118,39 +115,3 @@ def weekly_plan(request):
     }
     return render(request, 'week_plan.html', d)
 
-
-
-def graph_save():
-    # y = f(x)
-    x = np.linspace(-np.pi, np.pi)
-    y1 = np.sin(x)+np.cos(x/2) 
-    y2 = np.cos(x)+np.cos(x)
-
-# figure
-    fig = plt.figure()
-    ax = fig.add_subplot(1, 1, 1)
-
-# plot
-    ax.plot(x, y1, linestyle='--', color='b', label='y = sin(x)')
-    ax.plot(x, y2, linestyle='-', color='#e46409', label='y = cos(x)')
-
-# x axis
-    plt.xlim([-np.pi, np.pi])
-    ax.set_xticks([-np.pi, -np.pi/2, 0, np.pi/2, np.pi])
-    ax.set_xticklabels(['-pi', '-pi/2', '0', 'pi/2', 'pi'])
-    ax.set_xlabel('x')
-
-# y axis
-    plt.ylim([-1.2, 1.2])
-    ax.set_yticks([-1, -0.5, 0, 0.5, 1])
-    ax.set_ylabel('y')
-
-# legend and title
-    ax.legend(loc='best')
-    ax.set_title('Plot of sine and cosine')
-
-
-#スクレイピングのデータとdatabaseのデータより提案の処理、グラフをpng変換
-# save as png
-    plt.savefig('./static/figure.png')
-    plt.clf()

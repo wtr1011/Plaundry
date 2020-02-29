@@ -49,8 +49,11 @@ def createPenmanArray(postnumber, startTime, endTime):
         date_colum.append(data[i][0].replace('月', '/')[:-4] )
         #print(data[i][0])
 
+    #ペンマン値の代入#################################################
     #当日
     maxtime = 24    #24時間
+    #workTimeArray関数で取得したworktimeの中に入っていなければ、それぞれの天気に応じたペンマン値を代入
+    #worktime内の場合、-1を代入
     for j in range(maxtime):
         if ( ('晴れ' in week[0][j][1]) & ( week[0][j][0] not in worktime ) ):
             day.append( round(10000 / penman.penman(float(week[0][j][2]), float(week[0][j][5]), float(week[0][j][7]), isola_sunny[j]), 3))
@@ -85,7 +88,7 @@ def createPenmanArray(postnumber, startTime, endTime):
         isola_index = 0
         penmanArray.append(day)
         day = []
-
+    ##########################################################
     return penmanArray, time_index, date_colum
 
 
@@ -106,7 +109,7 @@ def createTable(array, time_index, date_colum):
 
     plt.savefig('./static/table.png')
     plt.clf()
-
+    #１週間内の各日にちの最大値とその日時を辞書型にする
     df_max_week_index = df.idxmax()
     Dict = {
         df[df_max_week_index.index[0]][df_max_week_index.values[0]]:[df_max_week_index.index[0], df_max_week_index.values[0]],
@@ -117,52 +120,32 @@ def createTable(array, time_index, date_colum):
         df[df_max_week_index.index[5]][df_max_week_index.values[5]]:[df_max_week_index.index[5], df_max_week_index.values[5]],
         df[df_max_week_index.index[6]][df_max_week_index.values[6]]:[df_max_week_index.index[6], df_max_week_index.values[6]]
     }
+    #辞書型をソートし上から3番目を取り出す
     sortedDict = sorted(Dict.items())
     max_3rank = [sortedDict[-1], sortedDict[-2], sortedDict[-3]]
     
+    #上から3番目までを返す
+    #[val:[date, time], val2:... val3:...]
     return max_3rank
 
 def workTimeArray(startTime, endTime):
-    #文字処理
+    #天気情報の日時から01~24を取り出す
     startTime = startTime.split(':')[0]
     endTime = endTime.split(':')[0]
 
     workTime = []
 
-    timeDict = {
-        '00':0,
-        '01':1,
-        '02':2,
-        '03':3,
-        '04':4,
-        '05':5,
-        '06':6,
-        '07':7,
-        '08':8,
-        '09':9,
-        '10':10,
-        '11':11,
-        '12':12,
-        '13':13,
-        '14':14,
-        '15':15,
-        '16':16,
-        '17':17,
-        '18':18,
-        '19':19,
-        '20':20,
-        '21':21,
-        '22':22,
-        '23':23
+    #文字を数値に直す辞書型を作成
+    timeDict = {'00':0, '01':1, '02':2, '03':3, '04':4, '05':5, '06':6,
+                '07':7, '08':8, '09':9, '10':10, '11':11, '12':12,
+                '13':13, '14':14, '15':15, '16':16, '17':17, '18':18,
+                '19':19, '20':20, '21':21, '22':22, '23':23
     }
-
-    time_range = timeDict[endTime] - timeDict[startTime]
-
+    #開始から終了までの幅(1時間毎)をリストにいれ、返す
     for i in range(timeDict[startTime], timeDict[endTime]+1):
         keys = [k for k, v in timeDict.items() if v == i]
         workTime.append(keys[0])
-    
-    print(workTime)
+    #[time1, time2, time3, ....]
     return workTime
 
 def executeCreateTable(postnumber, startTime, endTime):
@@ -173,7 +156,7 @@ def executeCreateTable(postnumber, startTime, endTime):
     #color list array
 def coloring(data):
     color_data = np.full((24, 7), '1111111')
-
+    #dataの中の最大値を求め、4分割し、その値の範囲に応じて色を変える
     level = data.max()
     i, j = 0, 0
     for day in data:

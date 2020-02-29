@@ -14,6 +14,6 @@
   <p style="text-align: center;padding-top: 50px;"><label style="font-size: 300%;">今日の推奨時間</label></p>
   <p class="figure_today"><img id="graph" src='{% static "day.png" %}' alt="graph" border="0"></p>
   <p class="label_today_plan">推奨時間は{{time}}時です！</p>
-  <p class="btn5_pos" style="padding-top: 100px;"><button type="button" id="btn5" onclick="getJSONForm('http://' + ipaddr + ':8000/initial/usual');">戻る</button></p>
+  <p class="btn5_pos" style="padding-top: 100px;"><button type="button" id="btn5" onclick="toUsual_btnWrap();">戻る</button></p>
 </body>
 </html>
