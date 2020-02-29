@@ -97,7 +97,7 @@ function createJSON(){
 }
 
 function getJSONForm(actionURL) {
- 
+
   var form = document.createElement('form');
   var request = document.createElement('input');
   var value = createJSON();

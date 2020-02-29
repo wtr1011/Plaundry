@@ -30,7 +30,6 @@ def get_post_query(request):
 
 
 #get work time
-
 def get_worktime(request):
     d = {
         'worktime_start': request.GET.get('worktime_start'),
