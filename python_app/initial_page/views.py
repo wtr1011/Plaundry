@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from initial_page.python import result_day
 from initial_page.python.draw_graph import time_sep_and_draw_graph
 from initial_page.python.weekly_suggest_tb import executeCreateTable
+from initial_page.python.pick_data import picker
 
 #グローバル変数でデータ保存
 postnumber=0
@@ -70,8 +71,17 @@ def usual_page(request):
         endtime = userData[2]
         scale = userData[3]
     time_sep_and_draw_graph(postnumber,"./static/")
-    print(postnumber)
-    return render(request, 'usual.html')
+
+    instdata = picker()
+
+    d = {
+        'userID':instdata[0],
+        'time':instdata[1],
+        'height':instdata[2]*100,
+        'weight':instdata[3]
+    }
+
+    return render(request, 'usual.html', d)
 
 
 #plan today page
