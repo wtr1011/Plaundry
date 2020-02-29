@@ -107,17 +107,16 @@ def weekly_plan(request):
         scale = userData[3]
     #スクレイピングのデータとdatabaseのデータより提案の処理、グラフをpng変換
 
-    executeCreateTable(postnumber)
+    rank3 = executeCreateTable(postnumber, starttime, endtime)
     d = {
-        'mon_plan':["8:00 ~ 9:00", "9:00 ~ 10:00"],
-        'tue_plan':["11:00 ~ 14:00"],
-        'wed_plan':["8:00 ~ 9:00", "9:00 ~ 10:00", "11:00 ~ 12:00"],
-        'thr_plan':["8:00 ~ 9:00"],
-        'fri_plan':["8:00 ~ 9:00", "9:00 ~ 10:00", "16:00 ~ 17:00", "20:00 ~ 21:00", "22:00 ~ 24:00"],
-        'sat_plan':["8:00 ~ 9:00", "10:00 ~ 11:00"],
-        'sun_plan':["8:00 ~ 24:00"],
+        '1st_plan_date':rank3[0][1][0],
+        '1st_plan_time':rank3[0][1][1],
+        '2nd_plan_date':rank3[1][1][0],
+        '2nd_plan_time':rank3[1][1][1],
+        '3rd_plan_date':rank3[2][1][0],
+        '3rd_plan_time':rank3[2][1][1],
     }
-    return render(request, 'week_plan.html')
+    return render(request, 'week_plan.html', d)
 
 
 
