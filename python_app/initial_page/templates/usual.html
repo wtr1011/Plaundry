@@ -81,7 +81,7 @@ function removeBtn() {
 //更新（再度pythonを動かしてスクレイピングできる）
 $(function(){
   $('#btn2').on('click', function() {
-    getJSONForm('http://' + ipaddr + ':8000/initial/usual/');
+    toUsual_btnWrap();
     });
 });
 
@@ -109,7 +109,9 @@ $(function(){
   <p class="toggle_posi">　　　
     　　　　　<input type="checkbox" id="chk1" /><label for="chk1">花粉量表示</label>
   </p>
-  <p style="padding-top: 50px;padding-left: 100px;"><label style="font-size: 250%;">洗濯カゴの占有率：</label>　</p>
-    <p class="button_posi"><input type="button" id="btn2" value="更新" />　　<button type="button" id="btn3" onclick="getJSONForm('http://' + ipaddr + ':8000/initial/today');">今日の推奨時間</button>　<button type="button" id="btn4" onclick="getJSONForm('http://' + ipaddr + ':8000/initial/weekly');">週間の提案</button><p>
+  <p style="padding-top: 50px;padding-left: 150px;"><label style="font-size: 250%;">更新日時　{{time}}</label></p>
+  <p style="padding-left: 150px;"><label style="font-size: 300%;">洗濯カゴの占有率：　{{height}} %</label></p>
+  <p style="padding-left: 300px;"><label style="font-size: 250%;">カゴ内の重量：　{{weight}} g</label></p>
+    <p class="button_posi"><input type="button" id="btn2" value="更新" />　　<button type="button" id="btn3" onclick="toToday_btnWrap();">今日の推奨時間</button>　<button type="button" id="btn4" onclick="toWeekly_btnWrap();">週間の提案</button><p>
 </body>
 </html>

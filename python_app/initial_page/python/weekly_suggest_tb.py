@@ -10,7 +10,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib import colors
 
-def createPenmanArray(postnumber):
+def createPenmanArray(postnumber, startTime, endTime):
     #1時〜0時
     #晴れ　2020/2/25 9:00:00、座標：35.40N 137.00E
     isola_sunny = [0.000001,0.000001,0.000001,0.000001,0.000001,0.000001,0.09,0.75,1.44,2.01,2.42,2.64,2.66,2.47,2.09,1.54,0.86,0.16,0.000001,0.000001,0.000001,0.000001,0.000001,0.000001]
@@ -24,6 +24,7 @@ def createPenmanArray(postnumber):
     week = []
     penmanArray = []
     time_index = []
+    worktime = workTimeArray(startTime, endTime)
 
     #当日のデータ
     week.append(tenki_jp_day(postnumber))
@@ -48,13 +49,18 @@ def createPenmanArray(postnumber):
         date_colum.append(data[i][0].replace('月', '/')[:-4] )
         #print(data[i][0])
 
+    #ペンマン値の代入#################################################
     #当日
     maxtime = 24    #24時間
+    #workTimeArray関数で取得したworktimeの中に入っていなければ、それぞれの天気に応じたペンマン値を代入
+    #worktime内の場合、-1を代入
     for j in range(maxtime):
-        if '晴れ' in week[0][j][1]:
+        if ( ('晴れ' in week[0][j][1]) & ( week[0][j][0] not in worktime ) ):
             day.append( round(10000 / penman.penman(float(week[0][j][2]), float(week[0][j][5]), float(week[0][j][7]), isola_sunny[j]), 3))
-        elif '曇り' in week[0][j][1]:
+        elif ( ('曇り' in week[0][j][1]) & ( week[0][j][0] not in worktime )  ):
             day.append( round(10000 / penman.penman(float(week[0][j][2]), float(week[0][j][5]), float(week[0][j][7]), isola_cloudy[j]), 3))
+        elif week[0][j][0] in worktime:
+            day.append(-1)
         else:
             day.append( round(10000 / penman.penman(float(week[0][j][2]), 100, float(week[0][j][7]), isola_rainy), 3))
         time_index.append(week[0][j][0])
@@ -66,74 +72,112 @@ def createPenmanArray(postnumber):
     for i in range(1, 7):           #6日間
         for j in range(4):          #4区切り(6時間毎)
             for n in range(6):      #1区切りに6個のデータ
-                if '晴' == week[i][j][1]:
+                if ( ('晴' == week[i][j][1]) & (week[0][isola_index][0] not in worktime )):
                     day.append( round(10000 / penman.penman(float(week[i][j][2]), float(week[i][j][4]), float(week[i][j][5]), isola_sunny[isola_index]), 3))
-                elif '曇' == week[i][j][1]:
+                elif ( ('曇' == week[i][j][1]) & (week[0][isola_index][0] not in worktime )):
                     day.append( round(10000 / penman.penman(float(week[i][j][2]), float(week[i][j][4]), float(week[i][j][5]), isola_cloudy[isola_index]), 3))
-                elif '晴のち曇' == week[i][j][1]:
+                elif ( ('晴のち曇' == week[i][j][1]) & (week[0][isola_index][0] not in worktime )):
                     day.append( round(10000 / penman.penman(float(week[i][j][2]), float(week[i][j][4]), float(week[i][j][5]), isola_cloudy[isola_index]), 3))
-                elif '曇のち晴' == week[i][j][1]:
+                elif ( ('曇のち晴' == week[i][j][1]) & (week[0][isola_index][0] not in worktime )):
                     day.append( round(10000 / penman.penman(float(week[i][j][2]), float(week[i][j][4]), float(week[i][j][5]), isola_sunny[isola_index]), 3))
+                elif week[0][isola_index][0]  in worktime:
+                    day.append(-1)
                 else:
                     day.append( round(10000 / penman.penman(float(week[i][j][2]), 100, float(week[i][j][5]), isola_rainy), 3))
                 isola_index += 1
         isola_index = 0
         penmanArray.append(day)
         day = []
-
+    ##########################################################
     return penmanArray, time_index, date_colum
+
 
 #テーブル作成
 def createTable(array, time_index, date_colum):
     array_t = np.array(array).T
     df = pd.DataFrame(array_t, index=time_index, columns=date_colum)
-    #df.style.background_gradient(cmap='winter')
-    #df.plot()
-    #print(df)
-    #colors = plt.cm.BuPu(np.linspace(0, 0.5, len(array)))
+
     fig, ax = plt.subplots(figsize=(10,10))
     ax.axis('off')
     ax.axis('tight')
     ax.table(cellText=df.values,
              colLabels=df.columns,
              rowLabels=df.index,
-             cellColours=coloring(array_t),#plt.cm.bwr(array_t/15.0),
+             cellColours=coloring(array_t),
              loc='center',
              bbox=[0,0,1,1])
 
-    #plt.show()
-    
     plt.savefig('./static/table.png')
     plt.clf()
+    #１週間内の各日にちの最大値とその日時を辞書型にする
+    df_max_week_index = df.idxmax()
+    Dict = {
+        df[df_max_week_index.index[0]][df_max_week_index.values[0]]:[df_max_week_index.index[0], df_max_week_index.values[0]],
+        df[df_max_week_index.index[1]][df_max_week_index.values[1]]:[df_max_week_index.index[1], df_max_week_index.values[1]],
+        df[df_max_week_index.index[2]][df_max_week_index.values[2]]:[df_max_week_index.index[2], df_max_week_index.values[2]],
+        df[df_max_week_index.index[3]][df_max_week_index.values[3]]:[df_max_week_index.index[3], df_max_week_index.values[3]],
+        df[df_max_week_index.index[4]][df_max_week_index.values[4]]:[df_max_week_index.index[4], df_max_week_index.values[4]],
+        df[df_max_week_index.index[5]][df_max_week_index.values[5]]:[df_max_week_index.index[5], df_max_week_index.values[5]],
+        df[df_max_week_index.index[6]][df_max_week_index.values[6]]:[df_max_week_index.index[6], df_max_week_index.values[6]]
+    }
+    #辞書型をソートし上から3番目を取り出す
+    sortedDict = sorted(Dict.items())
+    max_3rank = [sortedDict[-1], sortedDict[-2], sortedDict[-3]]
+    
+    #上から3番目までを返す
+    #[val:[date, time], val2:... val3:...]
+    return max_3rank
 
-def executeCreateTable(postnumber):
-    data, time, date = createPenmanArray(postnumber)
-    createTable(data, time, date)
+def workTimeArray(startTime, endTime):
+    #天気情報の日時から01~24を取り出す
+    startTime = startTime.split(':')[0]
+    endTime = endTime.split(':')[0]
 
+    workTime = []
+
+    #文字を数値に直す辞書型を作成
+    timeDict = {'00':0, '01':1, '02':2, '03':3, '04':4, '05':5, '06':6,
+                '07':7, '08':8, '09':9, '10':10, '11':11, '12':12,
+                '13':13, '14':14, '15':15, '16':16, '17':17, '18':18,
+                '19':19, '20':20, '21':21, '22':22, '23':23
+    }
+    #開始から終了までの幅(1時間毎)をリストにいれ、返す
+    for i in range(timeDict[startTime], timeDict[endTime]+1):
+        keys = [k for k, v in timeDict.items() if v == i]
+        workTime.append(keys[0])
+    #[time1, time2, time3, ....]
+    return workTime
+
+def executeCreateTable(postnumber, startTime, endTime):
+    data, time, date = createPenmanArray(postnumber, startTime, endTime)
+
+    return createTable(data, time, date)
+
+    #color list array
 def coloring(data):
     color_data = np.full((24, 7), '1111111')
-
+    #dataの中の最大値を求め、4分割し、その値の範囲に応じて色を変える
     level = data.max()
     i, j = 0, 0
     for day in data:
         for val in day:
-            if ( level*(3/4) < val <=  level):
-                color_data[i][j] = '#FF0000'
-            elif ( level*(2/4) < val <=  level*(3/4)):
-                color_data[i][j] = '#FFA500' #orangered
-            elif ( level*(1/4) < val <=  level*(2/4)):
-                color_data[i, j] = '#00FFFF'
-            elif ( 0 <= val <=  level*(1/4)):
-                color_data[i][j] = '#1E90FF' #dodgerblue
+            if ( level*(3/4) < val <=  level ):
+                color_data[i][j] = '#F08080'
+            elif ( level*(2/4) < val <=  level*(3/4) ) :
+                color_data[i][j] = '#FFDEAD' #orangered
+            elif ( level*(1/4) < val <=  level*(2/4) ) :
+                color_data[i, j] = '#48D1CC'
+            elif ( 0 <= val <=  level*(1/4) ) :
+                color_data[i][j] = '#6495ED' #dodgerblue
             else:
                 color_data[i][j] = '#708090' #slategray
             j += 1
-
         j = 0
         i += 1
-    #color list array
+
+ 
     return color_data
 
 if __name__ == "__main__":
-    pass
     #executeCreateTable('2591206')
+    pass

@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from initial_page.python import result_day
 from initial_page.python.draw_graph import time_sep_and_draw_graph
 from initial_page.python.weekly_suggest_tb import executeCreateTable
+from initial_page.python.pick_data import picker
 
 #グローバル変数でデータ保存
 postnumber=0
@@ -29,7 +30,6 @@ def get_post_query(request):
 
 
 #get work time
-
 def get_worktime(request):
     d = {
         'worktime_start': request.GET.get('worktime_start'),
@@ -69,11 +69,18 @@ def usual_page(request):
         starttime = userData[1]
         endtime = userData[2]
         scale = userData[3]
-    #postnumber="2591292"
-    #graph_save()
     time_sep_and_draw_graph(postnumber,"./static/")
-    print(postnumber)
-    return render(request, 'usual.html')
+
+    instdata = picker()
+
+    d = {
+        'userID':instdata[0],
+        'time':instdata[1],
+        'height':instdata[2]*100,
+        'weight':instdata[3]
+    }
+
+    return render(request, 'usual.html', d)
 
 
 #plan today page
@@ -86,7 +93,7 @@ def today_plan(request):
         starttime = userData[1]
         endtime = userData[2]
         scale = userData[3]
-    #スクレイピングのデータとdatabaseのデータより提案の処理、グラフをpng変換
+
     time = result_day.output_time(postnumber)
 
     d = {
@@ -105,53 +112,15 @@ def weekly_plan(request):
         starttime = userData[1]
         endtime = userData[2]
         scale = userData[3]
-    #スクレイピングのデータとdatabaseのデータより提案の処理、グラフをpng変換
 
-    executeCreateTable(postnumber)
+    rank3 = executeCreateTable(postnumber, starttime, endtime)
     d = {
-        'mon_plan':["8:00 ~ 9:00", "9:00 ~ 10:00"],
-        'tue_plan':["11:00 ~ 14:00"],
-        'wed_plan':["8:00 ~ 9:00", "9:00 ~ 10:00", "11:00 ~ 12:00"],
-        'thr_plan':["8:00 ~ 9:00"],
-        'fri_plan':["8:00 ~ 9:00", "9:00 ~ 10:00", "16:00 ~ 17:00", "20:00 ~ 21:00", "22:00 ~ 24:00"],
-        'sat_plan':["8:00 ~ 9:00", "10:00 ~ 11:00"],
-        'sun_plan':["8:00 ~ 24:00"],
+        '1st_plan_date':rank3[0][1][0],
+        '1st_plan_time':rank3[0][1][1],
+        '2nd_plan_date':rank3[1][1][0],
+        '2nd_plan_time':rank3[1][1][1],
+        '3rd_plan_date':rank3[2][1][0],
+        '3rd_plan_time':rank3[2][1][1],
     }
-    return render(request, 'week_plan.html')
+    return render(request, 'week_plan.html', d)
 
-
-
-def graph_save():
-    # y = f(x)
-    x = np.linspace(-np.pi, np.pi)
-    y1 = np.sin(x)+np.cos(x/2) 
-    y2 = np.cos(x)+np.cos(x)
-
-# figure
-    fig = plt.figure()
-    ax = fig.add_subplot(1, 1, 1)
-
-# plot
-    ax.plot(x, y1, linestyle='--', color='b', label='y = sin(x)')
-    ax.plot(x, y2, linestyle='-', color='#e46409', label='y = cos(x)')
-
-# x axis
-    plt.xlim([-np.pi, np.pi])
-    ax.set_xticks([-np.pi, -np.pi/2, 0, np.pi/2, np.pi])
-    ax.set_xticklabels(['-pi', '-pi/2', '0', 'pi/2', 'pi'])
-    ax.set_xlabel('x')
-
-# y axis
-    plt.ylim([-1.2, 1.2])
-    ax.set_yticks([-1, -0.5, 0, 0.5, 1])
-    ax.set_ylabel('y')
-
-# legend and title
-    ax.legend(loc='best')
-    ax.set_title('Plot of sine and cosine')
-
-
-#スクレイピングのデータとdatabaseのデータより提案の処理、グラフをpng変換
-# save as png
-    plt.savefig('./static/figure.png')
-    plt.clf()
